@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producción - Sistema Ankhal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-box-seam"></i> ANKHAL - Sistema de Inventario
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="inventario.html"><i class="bi bi-clipboard-data"></i> Inventario</a></li>
+                    <li class="nav-item"><a class="nav-link" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
+                    <li class="nav-item"><a class="nav-link" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="bi bi-gear"></i> Control de Producción</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaProduccion">
+                        <i class="bi bi-plus-circle"></i> Registrar Producción
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas del Día -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card border-primary">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">PRODUCCIÓN HOY</h6>
+                        <h2 class="text-primary">1,250</h2>
+                        <p class="mb-0">piezas totales</p>
+                        <div class="progress mt-2" style="height: 25px;">
+                            <div class="progress-bar bg-warning" style="width: 83%">83%</div>
+                        </div>
+                        <small class="text-muted">Meta: 1,500 piezas</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">PRODUCTO BUENO</h6>
+                        <h2 class="text-success">1,180</h2>
+                        <p class="mb-0">piezas (94.4%)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-danger">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">PRODUCTO RECHAZO</h6>
+                        <h2 class="text-danger">70</h2>
+                        <p class="mb-0">piezas (5.6%)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-warning">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">MERMAS HOY</h6>
+                        <h2 class="text-warning">85</h2>
+                        <p class="mb-0">pies de madera</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producción de la Semana -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Producción Esta Semana</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Día</th>
+                                    <th>Producido</th>
+                                    <th>Meta</th>
+                                    <th>Cumplimiento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Lunes</td><td>1,420</td><td>1,500</td><td><span class="badge bg-success">95%</span></td></tr>
+                                <tr><td>Martes</td><td>1,580</td><td>1,500</td><td><span class="badge bg-success">105%</span></td></tr>
+                                <tr><td>Miércoles</td><td>1,350</td><td>1,500</td><td><span class="badge bg-warning">90%</span></td></tr>
+                                <tr><td>Jueves</td><td>1,480</td><td>1,500</td><td><span class="badge bg-success">99%</span></td></tr>
+                                <tr class="table-active"><td><strong>Viernes (Hoy)</strong></td><td><strong>1,250</strong></td><td><strong>1,500</strong></td><td><span class="badge bg-warning">83%</span></td></tr>
+                            </tbody>
+                            <tfoot class="table-secondary">
+                                <tr><td><strong>TOTAL</strong></td><td><strong>7,080</strong></td><td><strong>7,500</strong></td><td><span class="badge bg-success">94%</span></td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-tools"></i> Material Consumido Hoy</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Material</th>
+                                    <th>Cantidad</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Madera Pino 2x4</td><td>1,150 pies</td><td>$15,755</td></tr>
+                                <tr><td>Madera Encino 3x6</td><td>320 pies</td><td>$5,920</td></tr>
+                                <tr><td>Clavos 3"</td><td>14 kg</td><td>$490</td></tr>
+                                <tr><td>Arandelas M8</td><td>6 kg</td><td>$252</td></tr>
+                                <tr><td>Cartón RSC</td><td>85 m²</td><td>$7,225</td></tr>
+                            </tbody>
+                            <tfoot class="table-secondary">
+                                <tr><td colspan="2"><strong>TOTAL CONSUMIDO</strong></td><td><strong>$29,642</strong></td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros de Búsqueda -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="filter-section">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label small">Rango de Fechas</label>
+                    <select class="form-select" id="rangoFecha" onchange="aplicarFiltrosProduccion()">
+                        <option value="hoy">Hoy</option>
+                        <option value="semana" selected>Esta Semana</option>
+                        <option value="mes">Este Mes</option>
+                        <option value="personalizado">Personalizado</option>
+                    </select>
+                </div>
+                <div class="col-md-2" id="fechaDesdeCol" style="display:none;">
+                    <label class="form-label small">Desde</label>
+                    <input type="date" class="form-control" id="fechaDesde">
+                </div>
+                <div class="col-md-2" id="fechaHastaCol" style="display:none;">
+                    <label class="form-label small">Hasta</label>
+                    <input type="date" class="form-control" id="fechaHasta">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small">Base</label>
+                    <select class="form-select" id="filtroBase" onchange="aplicarFiltrosProduccion()">
+                        <option value="">Todas</option>
+                        <option value="WEG">WEG</option>
+                        <option value="TULA">TULA</option>
+                        <option value="QRO">QRO</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small">Producto</label>
+                    <select class="form-select" id="filtroProducto" onchange="aplicarFiltrosProduccion()">
+                        <option value="">Todos</option>
+                        <option value="104">Tarima 104</option>
+                        <option value="125">Tarima 125</option>
+                        <option value="CAJA-RSC-01">Caja RSC-01</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-end">
+                    <label class="form-label small">&nbsp;</label><br>
+                    <button class="btn btn-primary" onclick="aplicarFiltrosProduccion()">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                    <button class="btn btn-secondary" onclick="limpiarFiltrosProduccion()">
+                        <i class="bi bi-x-circle"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Historial de Producción -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Historial de Producción (Últimos registros)</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Fecha/Hora</th>
+                                        <th>Base</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad Buena</th>
+                                        <th>Rechazo</th>
+                                        <th>Mermas</th>
+                                        <th>Responsable</th>
+                                        <th>Observaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>16/01/2026 14:30</td>
+                                        <td>WEG</td>
+                                        <td>Tarima 104</td>
+                                        <td><span class="badge bg-success">280 pzas</span></td>
+                                        <td><span class="badge bg-danger">15 pzas</span></td>
+                                        <td>25 pies madera</td>
+                                        <td>Admin</td>
+                                        <td>Turno tarde</td>
+                                    </tr>
+                                    <tr>
+                                        <td>16/01/2026 08:00</td>
+                                        <td>WEG</td>
+                                        <td>Tarima 104</td>
+                                        <td><span class="badge bg-success">320 pzas</span></td>
+                                        <td><span class="badge bg-danger">8 pzas</span></td>
+                                        <td>18 pies madera</td>
+                                        <td>Admin</td>
+                                        <td>Turno mañana</td>
+                                    </tr>
+                                    <tr>
+                                        <td>16/01/2026 07:30</td>
+                                        <td>TULA</td>
+                                        <td>Caja RSC-01</td>
+                                        <td><span class="badge bg-success">580 pzas</span></td>
+                                        <td><span class="badge bg-danger">12 pzas</span></td>
+                                        <td>8 m² cartón</td>
+                                        <td>Admin</td>
+                                        <td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Producción -->
+    <!-- Modal Nueva Producción -->
+<div class="modal fade" id="modalNuevaProduccion" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Registrar Producción</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formNuevaProduccion">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Base de Producción *</label>
+                            <select class="form-select" id="baseProduccion" required>
+                                <option value="">Seleccione...</option>
+                                <option value="WEG">WEG</option>
+                                <option value="TULA">TULA</option>
+                                <option value="QRO">QRO</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Producto Fabricado *</label>
+                            <select class="form-select" id="productoFabricado" required onchange="cargarMaterialesProducto()">
+                                <option value="">Seleccione...</option>
+                                <option value="104">Tarima 104 - Estándar 100x120</option>
+                                <option value="125">Tarima 125 - Industrial 120x120</option>
+                                <option value="CAJA-RSC-01">Caja RSC-01 - 40x30x30</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Cantidad Buena *</label>
+                            <input type="number" class="form-control" id="cantidadBuena" required onchange="calcularMaterialesNecesarios()">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Cantidad Rechazo</label>
+                            <input type="number" class="form-control" id="cantidadRechazo" value="0">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Meta Diaria</label>
+                            <input type="number" class="form-control" id="metaDiaria" value="1500" readonly>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Material Consumido</h6>
+                    <p class="text-muted small"><i class="bi bi-info-circle"></i> Cantidades sugeridas (aproximadas) - puede ajustar</p>
+                    <div id="materialesConsumidos">
+                        <div class="alert alert-info text-center">
+                            <i class="bi bi-arrow-up"></i> Seleccione un producto primero
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Mermas Generadas</h6>
+                    <div id="mermasContainer">
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <select class="form-select" name="materialMerma[]">
+                                    <option value="">Seleccionar material...</option>
+                                    <option value="MAT-002">Madera Pino 2x4</option>
+                                    <option value="MAT-006">Madera Encino 3x6</option>
+                                    <option value="MAT-004">Cartón RSC</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" name="cantidadMerma[]" placeholder="Cantidad">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-sm btn-success w-100" onclick="agregarMerma()">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Observaciones</label>
+                        <textarea class="form-control" id="observacionesProd" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarProduccion()">
+                    <i class="bi bi-save"></i> Registrar Producción
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        function mostrarMateriales() {
+            const producto = document.getElementById('productoFabricado').value;
+            mostrarNotificacion('Materiales sugeridos actualizados', 'info');
+        }
+        
+        function guardarProduccion() {
+            const base = document.getElementById('baseProduccion').value;
+            const producto = document.getElementById('productoFabricado').value;
+            const cantidadBuena = document.getElementById('cantidadBuena').value;
+            
+            if (!base || !producto || !cantidadBuena) {
+                mostrarNotificacion('Complete todos los campos requeridos', 'error');
+                return;
+            }
+            
+            mostrarNotificacion('Producción registrada exitosamente', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaProduccion'));
+            modal.hide();
+            setTimeout(() => location.reload(), 1000);
+        }
+    </script>
+    <script>
+    // Base de datos de componentes por producto
+    const componentesProductos = {
+        '104': [
+            { material: 'Madera Pino 2x4', codigo: 'MAT-002', cantidadPorPieza: 25, unidad: 'pies' },
+            { material: 'Clavos 3"', codigo: 'MAT-001', cantidadPorPieza: 0.65, unidad: 'kg' },
+            { material: 'Arandelas M8', codigo: 'MAT-003', cantidadPorPieza: 0.25, unidad: 'kg' }
+        ],
+        '125': [
+            { material: 'Madera Pino 2x4', codigo: 'MAT-002', cantidadPorPieza: 35, unidad: 'pies' },
+            { material: 'Madera Encino 3x6', codigo: 'MAT-006', cantidadPorPieza: 12, unidad: 'pies' },
+            { material: 'Clavos 3"', codigo: 'MAT-001', cantidadPorPieza: 1.0, unidad: 'kg' },
+            { material: 'Arandelas M8', codigo: 'MAT-003', cantidadPorPieza: 0.4, unidad: 'kg' }
+        ],
+        'CAJA-RSC-01': [
+            { material: 'Cartón RSC', codigo: 'MAT-004', cantidadPorPieza: 1.0, unidad: 'm²' },
+            { material: 'Adhesivo', codigo: 'MAT-008', cantidadPorPieza: 0.075, unidad: 'litros' }
+        ]
+    };
+    
+    function cargarMaterialesProducto() {
+        const producto = document.getElementById('productoFabricado').value;
+        const container = document.getElementById('materialesConsumidos');
+        
+        if (!producto) {
+            container.innerHTML = '<div class="alert alert-info text-center"><i class="bi bi-arrow-up"></i> Seleccione un producto primero</div>';
+            return;
+        }
+        
+        const componentes = componentesProductos[producto];
+        if (!componentes) {
+            container.innerHTML = '<div class="alert alert-warning">No hay componentes definidos para este producto</div>';
+            return;
+        }
+        
+        let html = '';
+        componentes.forEach((comp, index) => {
+            html += `
+                <div class="row mb-2 material-row">
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" value="${comp.material}" readonly>
+                        <input type="hidden" id="materialCodigo${index}" value="${comp.codigo}">
+                        <input type="hidden" id="materialPorPieza${index}" value="${comp.cantidadPorPieza}">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="number" step="0.01" class="form-control" id="materialCantidad${index}" placeholder="Cantidad" value="0">
+                            <span class="input-group-text">${comp.unidad}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted">Sugerido: <span id="materialSugerido${index}">0</span> ${comp.unidad}</small>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+        
+        // Calcular si ya hay cantidad
+        calcularMaterialesNecesarios();
+    }
+    
+    function calcularMaterialesNecesarios() {
+        const producto = document.getElementById('productoFabricado').value;
+        const cantidad = parseFloat(document.getElementById('cantidadBuena').value) || 0;
+        
+        if (!producto || cantidad === 0) return;
+        
+        const componentes = componentesProductos[producto];
+        if (!componentes) return;
+        
+        componentes.forEach((comp, index) => {
+            const cantidadNecesaria = (comp.cantidadPorPieza * cantidad).toFixed(2);
+            const inputCantidad = document.getElementById(`materialCantidad${index}`);
+            const spanSugerido = document.getElementById(`materialSugerido${index}`);
+            
+            if (inputCantidad && spanSugerido) {
+                inputCantidad.value = cantidadNecesaria;
+                spanSugerido.textContent = cantidadNecesaria;
+            }
+        });
+    }
+    
+    function agregarMerma() {
+        const container = document.getElementById('mermasContainer');
+        const nuevaMerma = document.createElement('div');
+        nuevaMerma.className = 'row mb-2 merma-row';
+        nuevaMerma.innerHTML = `
+            <div class="col-md-6">
+                <select class="form-select" name="materialMerma[]">
+                    <option value="">Seleccionar material...</option>
+                    <option value="MAT-002">Madera Pino 2x4</option>
+                    <option value="MAT-006">Madera Encino 3x6</option>
+                    <option value="MAT-004">Cartón RSC</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <input type="number" class="form-control" name="cantidadMerma[]" placeholder="Cantidad">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-sm btn-danger w-100" onclick="eliminarMerma(this)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(nuevaMerma);
+    }
+    
+    function eliminarMerma(boton) {
+        const row = boton.closest('.merma-row');
+        row.remove();
+    }
+    
+    function guardarProduccion() {
+        const base = document.getElementById('baseProduccion').value;
+        const producto = document.getElementById('productoFabricado').value;
+        const cantidadBuena = document.getElementById('cantidadBuena').value;
+        
+        if (!base || !producto || !cantidadBuena) {
+            mostrarNotificacion('Complete todos los campos requeridos', 'error');
+            return;
+        }
+        
+        mostrarNotificacion('Producción registrada exitosamente', 'success');
+        const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaProduccion'));
+        modal.hide();
+        setTimeout(() => location.reload(), 1000);
+    }
+</script>
+<script>
+    // Mostrar/ocultar campos de fecha personalizada
+    document.getElementById('rangoFecha').addEventListener('change', function() {
+        const personalizado = this.value === 'personalizado';
+        document.getElementById('fechaDesdeCol').style.display = personalizado ? 'block' : 'none';
+        document.getElementById('fechaHastaCol').style.display = personalizado ? 'block' : 'none';
+    });
+    
+    function aplicarFiltrosProduccion() {
+        const rango = document.getElementById('rangoFecha').value;
+        const base = document.getElementById('filtroBase').value;
+        const producto = document.getElementById('filtroProducto').value;
+        
+        let mensaje = 'Mostrando producción de: ';
+        
+        switch(rango) {
+            case 'hoy':
+                mensaje += 'Hoy';
+                break;
+            case 'semana':
+                mensaje += 'Esta Semana';
+                break;
+            case 'mes':
+                mensaje += 'Este Mes';
+                break;
+            case 'personalizado':
+                const desde = document.getElementById('fechaDesde').value;
+                const hasta = document.getElementById('fechaHasta').value;
+                mensaje += `${desde} a ${hasta}`;
+                break;
+        }
+        
+        if (base) mensaje += ` | Base: ${base}`;
+        if (producto) mensaje += ` | Producto: ${producto}`;
+        
+        mostrarNotificacion(mensaje, 'info');
+    }
+    
+    function limpiarFiltrosProduccion() {
+        document.getElementById('rangoFecha').value = 'semana';
+        document.getElementById('filtroBase').value = '';
+        document.getElementById('filtroProducto').value = '';
+        document.getElementById('fechaDesdeCol').style.display = 'none';
+        document.getElementById('fechaHastaCol').style.display = 'none';
+        mostrarNotificacion('Filtros limpiados', 'info');
+    }
+</script>
+</body>
+</html>

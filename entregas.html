@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entregas - Sistema Ankhal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-box-seam"></i> ANKHAL - Sistema de Inventario
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="inventario.html"><i class="bi bi-clipboard-data"></i> Inventario</a></li>
+                    <li class="nav-item"><a class="nav-link" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="bi bi-truck"></i> Gestión de Entregas</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaEntrega">
+                        <i class="bi bi-plus-circle"></i> Nueva Entrega
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas Rápidas -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <i class="bi bi-check-circle text-success" style="font-size: 2.5rem;"></i>
+                        <h4 class="mt-2">3</h4>
+                        <p class="mb-0">Entregas Hoy</p>
+                        <small class="text-muted">250 piezas totales</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-primary">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-week text-primary" style="font-size: 2.5rem;"></i>
+                        <h4 class="mt-2">8</h4>
+                        <p class="mb-0">Esta Semana</p>
+                        <small class="text-muted">680 piezas</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-warning">
+                    <div class="card-body text-center">
+                        <i class="bi bi-clock text-warning" style="font-size: 2.5rem;"></i>
+                        <h4 class="mt-2">12</h4>
+                        <p class="mb-0">Programadas</p>
+                        <small class="text-muted">Próximos 30 días</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-info">
+                    <div class="card-body text-center">
+                        <i class="bi bi-cash-stack text-info" style="font-size: 2.5rem;"></i>
+                        <h4 class="mt-2">$87,500</h4>
+                        <p class="mb-0">Valor Entregas Hoy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros Avanzados -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="filter-section">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold">Periodo de Búsqueda</label>
+                            <select class="form-select" id="rangoFechaEntregas" onchange="toggleFechasPersonalizadas()">
+                                <option value="hoy">Hoy</option>
+                                <option value="ayer">Ayer</option>
+                                <option value="semana" selected>Esta Semana</option>
+                                <option value="mes">Este Mes</option>
+                                <option value="ultimo30">Últimos 30 días</option>
+                                <option value="personalizado">Personalizado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2" id="fechaDesdeCol" style="display:none;">
+                            <label class="form-label small">Desde</label>
+                            <input type="date" class="form-control" id="fechaDesdeEntregas">
+                        </div>
+                        <div class="col-md-2" id="fechaHastaCol" style="display:none;">
+                            <label class="form-label small">Hasta</label>
+                            <input type="date" class="form-control" id="fechaHastaEntregas">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Base Origen</label>
+                            <select class="form-select" id="filtroBaseOrigen">
+                                <option value="">Todas</option>
+                                <option value="TULA">TULA</option>
+                                <option value="WEG">WEG</option>
+                                <option value="SM">SM</option>
+                                <option value="ATOTO">ATOTO</option>
+                                <option value="NAVE4">NAVE 4</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Cliente/Destino</label>
+                            <input type="text" class="form-control" id="filtroCliente" placeholder="Buscar cliente...">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Estado</label>
+                            <select class="form-select" id="filtroEstadoEntrega">
+                                <option value="">Todos</option>
+                                <option value="programada">Programada</option>
+                                <option value="entregada">Entregada</option>
+                                <option value="cancelada">Cancelada</option>
+                                <option value="pendiente">Pendiente Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-2">
+                            <label class="form-label small">Producto</label>
+                            <select class="form-select" id="filtroProductoEntrega">
+                                <option value="">Todos</option>
+                                <option value="104">Tarima 104</option>
+                                <option value="125">Tarima 125</option>
+                                <option value="CAJA-RSC-01">Caja RSC-01</option>
+                                <option value="FIB001">FIB001</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Día de la Semana</label>
+                            <select class="form-select" id="filtroDiaSemana">
+                                <option value="">Todos</option>
+                                <option value="lunes">Lunes</option>
+                                <option value="martes">Martes</option>
+                                <option value="miercoles">Miércoles</option>
+                                <option value="jueves">Jueves</option>
+                                <option value="viernes">Viernes</option>
+                                <option value="sabado">Sábado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8 text-end">
+                            <label class="form-label small">&nbsp;</label><br>
+                            <button class="btn btn-primary" onclick="aplicarFiltrosEntregas()">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
+                            <button class="btn btn-secondary" onclick="limpiarFiltrosEntregas()">
+                                <i class="bi bi-x-circle"></i> Limpiar
+                            </button>
+                            <button class="btn btn-success" onclick="exportarExcel()">
+                                <i class="bi bi-file-earmark-excel"></i> Exportar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen de Búsqueda -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="alert alert-info d-flex justify-content-between align-items-center">
+                    <span id="resumenBusqueda">
+                        <i class="bi bi-funnel"></i> Mostrando: <strong>Esta Semana</strong> | <strong>Todas las bases</strong> | <strong>Todos los estados</strong>
+                    </span>
+                    <span class="badge bg-primary" id="totalResultados">18 entregas encontradas</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Entregas -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="bi bi-list-ul"></i> Historial de Entregas</h5>
+                            <div>
+                                <small class="text-muted">Ordenar por:</small>
+                                <select class="form-select form-select-sm d-inline-block" style="width: auto;" id="ordenarPor">
+                                    <option value="fecha_desc" selected>Fecha (más reciente)</option>
+                                    <option value="fecha_asc">Fecha (más antigua)</option>
+                                    <option value="cliente_asc">Cliente (A-Z)</option>
+                                    <option value="valor_desc">Valor (mayor)</option>
+                                    <option value="cantidad_desc">Cantidad (mayor)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th width="10%">Fecha Entrega</th>
+                                        <th width="8%">Día</th>
+                                        <th width="15%">Cliente/Destino</th>
+                                        <th width="10%">Base Origen</th>
+                                        <th width="20%">Productos</th>
+                                        <th width="8%">Cantidad Total</th>
+                                        <th width="10%">Valor</th>
+                                        <th width="10%">Estado</th>
+                                        <th width="9%" class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaEntregas">
+                                    <!-- Entregas de Hoy -->
+                                    <tr>
+                                        <td><strong>16/01/2026</strong></td>
+                                        <td><span class="badge bg-light text-dark">Jueves</span></td>
+                                        <td><strong>EMPRESA ABC</strong></td>
+                                        <td>TULA</td>
+                                        <td>Tarima 104</td>
+                                        <td>50 pzas</td>
+                                        <td>$14,000</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(1)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>16/01/2026</strong></td>
+                                        <td><span class="badge bg-light text-dark">Jueves</span></td>
+                                        <td><strong>VOLTRAN</strong></td>
+                                        <td>WEG</td>
+                                        <td>
+                                            Tarima 125 (120 pzas)<br>
+                                            <small class="text-muted">Caja RSC-01 (80 pzas)</small>
+                                        </td>
+                                        <td>200 pzas</td>
+                                        <td>$44,400</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(2)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>16/01/2026</strong></td>
+                                        <td><span class="badge bg-light text-dark">Jueves</span></td>
+                                        <td><strong>FIBRAMEX</strong></td>
+                                        <td>SM</td>
+                                        <td>Caja DP-01</td>
+                                        <td>80 pzas</td>
+                                        <td>$7,600</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(3)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Programadas esta semana -->
+                                    <tr>
+                                        <td><strong>17/01/2026</strong></td>
+                                        <td><span class="badge bg-light text-dark">Viernes</span></td>
+                                        <td><strong>ATOTO</strong></td>
+                                        <td>TULA</td>
+                                        <td>Caja RSC-01</td>
+                                        <td>100 pzas</td>
+                                        <td>$4,500</td>
+                                        <td><span class="badge bg-primary">Programada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(4)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>20/01/2026</strong></td>
+                                        <td><span class="badge bg-light text-dark">Lunes</span></td>
+                                        <td><strong>TULTENGO</strong></td>
+                                        <td>WEG</td>
+                                        <td>Tarima 104</td>
+                                        <td>120 pzas</td>
+                                        <td>$33,600</td>
+                                        <td><span class="badge bg-primary">Programada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(5)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>21/01/2026</strong></td>
+                                        <td><span class="badge bg-light text-dark">Martes</span></td>
+                                        <td><strong>TULTENGO</strong></td>
+                                        <td>WEG</td>
+                                        <td>Tarima 125</td>
+                                        <td>80 pzas</td>
+                                        <td>$27,200</td>
+                                        <td><span class="badge bg-primary">Programada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(6)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>23/01/2026</strong></td>
+                                        <td><span class="badge bg-light text-dark">Jueves</span></td>
+                                        <td><strong>TULTENGO</strong></td>
+                                        <td>TULA</td>
+                                        <td>FIB001</td>
+                                        <td>25 pzas</td>
+                                        <td>$30,000</td>
+                                        <td><span class="badge bg-warning text-dark">Pendiente Stock</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(7)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Entregas anteriores -->
+                                    <tr>
+                                        <td>15/01/2026</td>
+                                        <td><span class="badge bg-light text-dark">Miércoles</span></td>
+                                        <td><strong>BRASKEM</strong></td>
+                                        <td>TULA</td>
+                                        <td>Tarima 104</td>
+                                        <td>200 pzas</td>
+                                        <td>$56,000</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(8)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>14/01/2026</td>
+                                        <td><span class="badge bg-light text-dark">Martes</span></td>
+                                        <td><strong>ARKAM</strong></td>
+                                        <td>WEG</td>
+                                        <td>
+                                            Tarima 125 (100 pzas)<br>
+                                            <small class="text-muted">Caja RSC-01 (150 pzas)</small>
+                                        </td>
+                                        <td>250 pzas</td>
+                                        <td>$40,750</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(9)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>13/01/2026</td>
+                                        <td><span class="badge bg-light text-dark">Lunes</span></td>
+                                        <td><strong>ATOTO</strong></td>
+                                        <td>SM</td>
+                                        <td>Tarima 104</td>
+                                        <td>75 pzas</td>
+                                        <td>$21,000</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(10)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10/01/2026</td>
+                                        <td><span class="badge bg-light text-dark">Viernes</span></td>
+                                        <td><strong>CLIENTE XYZ SA</strong></td>
+                                        <td>TULA</td>
+                                        <td>Caja DP-01</td>
+                                        <td>300 pzas</td>
+                                        <td>$28,500</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(11)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>08/01/2026</td>
+                                        <td><span class="badge bg-light text-dark">Miércoles</span></td>
+                                        <td><strong>VOLTRAN</strong></td>
+                                        <td>WEG</td>
+                                        <td>FIB001</td>
+                                        <td>50 pzas</td>
+                                        <td>$60,000</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(12)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>05/01/2026</td>
+                                        <td><span class="badge bg-light text-dark">Domingo</span></td>
+                                        <td><strong>EMERGENCIA - BRASKEM</strong></td>
+                                        <td>TULA</td>
+                                        <td>Tarima 104</td>
+                                        <td>35 pzas</td>
+                                        <td>$9,800</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(13)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>03/01/2026</td>
+                                        <td><span class="badge bg-light text-dark">Viernes</span></td>
+                                        <td><strong>FIBRAMEX</strong></td>
+                                        <td>SM</td>
+                                        <td>
+                                            Tarima 125 (60 pzas)<br>
+                                            <small class="text-muted">Caja RSC-01 (200 pzas)</small>
+                                        </td>
+                                        <td>260 pzas</td>
+                                        <td>$29,400</td>
+                                        <td><span class="badge bg-success">Entregada</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalleEntrega(14)" title="Ver detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">Mostrando 18 de 18 resultados</small>
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Entrega -->
+    <div class="modal fade" id="modalNuevaEntrega" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Registrar Nueva Entrega</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNuevaEntrega">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Fecha de Entrega *</label>
+                                <input type="date" class="form-control" id="fechaEntrega" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cliente/Destino *</label>
+                                <input type="text" class="form-control" id="clienteEntrega" required placeholder="Ej: EMPRESA ABC">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Base Origen *</label>
+                            <select class="form-select" id="baseOrigenEntrega" required>
+                                <option value="">Seleccione...</option>
+                                <option value="TULA">TULA</option>
+                                <option value="WEG">WEG</option>
+                                <option value="SM">SM</option>
+                                <option value="ATOTO">ATOTO</option>
+                            </select>
+                        </div>
+                        <hr>
+                        <h6>Productos a Entregar</h6>
+                        <div id="productosEntrega">
+                            <div class="row producto-entrega mb-2">
+                                <div class="col-md-5">
+                                    <select class="form-select" name="producto[]" required>
+                                        <option value="">Seleccionar producto...</option>
+                                        <option value="104">Tarima 104 - $280.00</option>
+                                        <option value="125">Tarima 125 - $340.00</option>
+                                        <option value="CAJA-RSC-01">Caja RSC-01 - $45.00</option>
+                                        <option value="CAJA-DP-01">Caja DP-01 - $95.00</option>
+                                        <option value="FIB001">FIB001 - $1,200.00</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control" name="cantidad[]" placeholder="Cantidad" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="eliminarProductoEntrega(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="agregarProductoEntrega()">
+                            <i class="bi bi-plus-circle"></i> Agregar Producto
+                        </button>
+                        <hr>
+                        <div class="mb-3">
+                            <label class="form-label">Observaciones</label>
+                            <textarea class="form-control" id="observacionesEntrega" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="guardarEntrega()">
+                        <i class="bi bi-save"></i> Registrar Entrega
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Fecha por defecto hoy
+        document.addEventListener('DOMContentLoaded', function() {
+            const hoy = new Date().toISOString().split('T')[0];
+            const fechaInput = document.getElementById('fechaEntrega');
+            if (fechaInput) fechaInput.value = hoy;
+        });
+        
+        // Toggle fechas personalizadas
+        function toggleFechasPersonalizadas() {
+            const rango = document.getElementById('rangoFechaEntregas').value;
+            const personalizado = rango === 'personalizado';
+            document.getElementById('fechaDesdeCol').style.display = personalizado ? 'block' : 'none';
+            document.getElementById('fechaHastaCol').style.display = personalizado ? 'block' : 'none';
+        }
+        
+        // Aplicar filtros
+        function aplicarFiltrosEntregas() {
+            const rango = document.getElementById('rangoFechaEntregas').value;
+            const base = document.getElementById('filtroBaseOrigen').value;
+            const cliente = document.getElementById('filtroCliente').value;
+            const estado = document.getElementById('filtroEstadoEntrega').value;
+            const producto = document.getElementById('filtroProductoEntrega').value;
+            const dia = document.getElementById('filtroDiaSemana').value;
+            
+            let resumen = '<i class="bi bi-funnel"></i> Mostrando: ';
+            
+            // Periodo
+            const periodos = {
+                'hoy': 'Hoy',
+                'ayer': 'Ayer',
+                'semana': 'Esta Semana',
+                'mes': 'Este Mes',
+                'ultimo30': 'Últimos 30 días',
+                'personalizado': 'Periodo personalizado'
+            };
+            resumen += `<strong>${periodos[rango]}</strong>`;
+            
+            // Base
+            resumen += ` | <strong>${base || 'Todas las bases'}</strong>`;
+            
+            // Estado
+            const estados = {
+                'programada': 'Programadas',
+                'entregada': 'Entregadas',
+                'cancelada': 'Canceladas',
+                'pendiente': 'Pendientes Stock'
+            };
+            resumen += ` | <strong>${estados[estado] || 'Todos los estados'}</strong>`;
+            
+            // Otros filtros activos
+            if (cliente) resumen += ` | Cliente: <strong>${cliente}</strong>`;
+            if (producto) resumen += ` | Producto: <strong>${producto}</strong>`;
+            if (dia) resumen += ` | Día: <strong>${dia}</strong>`;
+            
+            document.getElementById('resumenBusqueda').innerHTML = resumen;
+            mostrarNotificacion('Filtros aplicados correctamente', 'success');
+        }
+        
+        // Limpiar filtros
+        function limpiarFiltrosEntregas() {
+            document.getElementById('rangoFechaEntregas').value = 'semana';
+            document.getElementById('filtroBaseOrigen').value = '';
+            document.getElementById('filtroCliente').value = '';
+            document.getElementById('filtroEstadoEntrega').value = '';
+            document.getElementById('filtroProductoEntrega').value = '';
+            document.getElementById('filtroDiaSemana').value = '';
+            document.getElementById('fechaDesdeCol').style.display = 'none';
+            document.getElementById('fechaHastaCol').style.display = 'none';
+            
+            document.getElementById('resumenBusqueda').innerHTML = '<i class="bi bi-funnel"></i> Mostrando: <strong>Esta Semana</strong> | <strong>Todas las bases</strong> | <strong>Todos los estados</strong>';
+            mostrarNotificacion('Filtros limpiados', 'info');
+        }
+        
+        // Agregar producto a entrega
+        function agregarProductoEntrega() {
+            const container = document.getElementById('productosEntrega');
+            const nuevoProducto = document.createElement('div');
+            nuevoProducto.className = 'row producto-entrega mb-2';
+            nuevoProducto.innerHTML = `
+                <div class="col-md-5">
+                    <select class="form-select" name="producto[]" required>
+                        <option value="">Seleccionar producto...</option>
+                        <option value="104">Tarima 104 - $280.00</option>
+                        <option value="125">Tarima 125 - $340.00</option>
+                        <option value="CAJA-RSC-01">Caja RSC-01 - $45.00</option>
+                        <option value="CAJA-DP-01">Caja DP-01 - $95.00</option>
+                        <option value="FIB001">FIB001 - $1,200.00</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" name="cantidad[]" placeholder="Cantidad" required>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="eliminarProductoEntrega(this)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(nuevoProducto);
+        }
+        
+        // Eliminar producto
+        function eliminarProductoEntrega(boton) {
+            const row = boton.closest('.producto-entrega');
+            row.remove();
+        }
+        
+        // Guardar entrega
+        function guardarEntrega() {
+            const fecha = document.getElementById('fechaEntrega').value;
+            const cliente = document.getElementById('clienteEntrega').value;
+            const base = document.getElementById('baseOrigenEntrega').value;
+            
+            if (!fecha || !cliente || !base) {
+                mostrarNotificacion('Complete todos los campos requeridos', 'error');
+                return;
+            }
+            
+            const productos = document.querySelectorAll('select[name="producto[]"]');
+            const cantidades = document.querySelectorAll('input[name="cantidad[]"]');
+            
+            if (productos.length === 0 || !productos[0].value) {
+                mostrarNotificacion('Agregue al menos un producto', 'warning');
+                return;
+            }
+            
+            mostrarNotificacion('Entrega registrada exitosamente', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaEntrega'));
+            modal.hide();
+            setTimeout(() => location.reload(), 1000);
+        }
+        
+        // Ver detalle
+        function verDetalleEntrega(id) {
+            alert(`Ver detalle de entrega #${id}\n\nEsta funcionalidad mostrará:\n- Productos entregados con cantidades\n- Valores totales\n- Documentos generados\n- Firma de recibido\n- Historial de seguimiento`);
+        }
+    </script>
+</body>
+</html>

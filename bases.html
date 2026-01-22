@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bases/Plantas - Sistema Ankhal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-box-seam"></i> ANKHAL - Sistema de Inventario
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="bases.html">
+                            <i class="bi bi-building"></i> Bases/Plantas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="materiales.html">
+                            <i class="bi bi-box"></i> Materiales
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="productos.html">
+                            <i class="bi bi-grid-3x3-gap"></i> Productos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-clipboard-data"></i> Inventario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="movimientos.html">
+                            <i class="bi bi-arrow-left-right"></i> Movimientos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="produccion.html">
+                            <i class="bi bi-gear"></i> Producción
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="entregas.html">
+                            <i class="bi bi-truck"></i> Entregas
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="bi bi-building"></i> Gestión de Bases/Plantas</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaBase">
+                        <i class="bi bi-plus-circle"></i> Nueva Base
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="filter-section">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="buscarBase" placeholder="Buscar por nombre o código...">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filtroTipo">
+                                <option value="">Todos los tipos</option>
+                                <option value="Producción">Producción</option>
+                                <option value="Almacén">Almacén</option>
+                                <option value="Mixta">Mixta</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="filtroEstado">
+                                <option value="">Todos los estados</option>
+                                <option value="Activa">Activas</option>
+                                <option value="Inactiva">Inactivas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-secondary w-100" onclick="limpiarFiltros()">
+                                <i class="bi bi-x-circle"></i> Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listado de Bases -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-list-ul"></i> Listado de Bases
+                            <span class="badge bg-primary ms-2" id="totalBases">13</span>
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0" id="tablaBases">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th>Estado</th>
+                                        <th>Valor Stock</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaBases">
+                                    <tr>
+                                        <td><strong>TULA</strong></td>
+                                        <td>Base Tula de Allende</td>
+                                        <td><span class="badge bg-info">Mixta</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$770,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('TULA')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('TULA')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>WEG</strong></td>
+                                        <td>Planta WEG</td>
+                                        <td><span class="badge bg-primary">Producción</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$660,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('WEG')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('WEG')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>SM</strong></td>
+                                        <td>Base SM</td>
+                                        <td><span class="badge bg-secondary">Almacén</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$420,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('SM')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('SM')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ATOTO</strong></td>
+                                        <td>Base Atoto</td>
+                                        <td><span class="badge bg-info">Mixta</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$330,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('ATOTO')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('ATOTO')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ARKAM</strong></td>
+                                        <td>Base Arkam</td>
+                                        <td><span class="badge bg-info">Mixta</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$300,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('ARKAM')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('ARKAM')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>NAVE4</strong></td>
+                                        <td>Nave 4</td>
+                                        <td><span class="badge bg-secondary">Almacén</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$250,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('NAVE4')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('NAVE4')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>VOLTRAN</strong></td>
+                                        <td>Base Voltran</td>
+                                        <td><span class="badge bg-primary">Producción</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$180,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('VOLTRAN')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('VOLTRAN')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>BRASKEM</strong></td>
+                                        <td>Base Braskem</td>
+                                        <td><span class="badge bg-info">Mixta</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$150,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('BRASKEM')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('BRASKEM')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FIBRAMEX</strong></td>
+                                        <td>Base Fibramex</td>
+                                        <td><span class="badge bg-secondary">Almacén</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$120,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('FIBRAMEX')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('FIBRAMEX')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>QRO</strong></td>
+                                        <td>Base Querétaro</td>
+                                        <td><span class="badge bg-primary">Producción</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$95,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('QRO')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('QRO')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TULTENGO</strong></td>
+                                        <td>Base Tultengo</td>
+                                        <td><span class="badge bg-secondary">Almacén</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$75,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('TULTENGO')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('TULTENGO')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>MP</strong></td>
+                                        <td>Materia Prima Central</td>
+                                        <td><span class="badge bg-secondary">Almacén</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$450,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('MP')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('MP')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PT</strong></td>
+                                        <td>Producto Terminado Central</td>
+                                        <td><span class="badge bg-secondary">Almacén</span></td>
+                                        <td><span class="badge bg-success">Activa</span></td>
+                                        <td>$380,000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" onclick="verDetalle('PT')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-warning" onclick="editarBase('PT')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">Mostrando 13 de 13 resultados</small>
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Base -->
+    <div class="modal fade" id="modalNuevaBase" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Nueva Base/Planta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNuevaBase">
+                        <div class="mb-3">
+                            <label class="form-label">Código de la Base *</label>
+                            <input type="text" class="form-control" id="codigoBase" required placeholder="Ej: TULA, WEG, SM">
+                            <small class="text-muted">Código único para identificar la base</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre de la Base *</label>
+                            <input type="text" class="form-control" id="nombreBase" required placeholder="Ej: Base Tula de Allende">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Base *</label>
+                            <select class="form-select" id="tipoBase" required>
+                                <option value="">Seleccione...</option>
+                                <option value="Producción">Producción</option>
+                                <option value="Almacén">Almacén</option>
+                                <option value="Mixta">Mixta (Producción y Almacén)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" id="estadoBase">
+                                <option value="Activa" selected>Activa</option>
+                                <option value="Inactiva">Inactiva</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="guardarBase()">
+                        <i class="bi bi-save"></i> Guardar Base
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/bases.js"></script>
+</body>
+</html>
