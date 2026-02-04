@@ -252,8 +252,6 @@
                             <option value="ENTRADA">Entrada (de proveedor)</option>
                             <option value="SALIDA">Salida (entrega a cliente)</option>
                             <option value="TRANSFERENCIA">Transferencia entre bases</option>
-                            <option value="CONSUMO">Consumo en producción</option>
-                            <option value="MERMA">Merma</option>
                             <option value="AJUSTE">Ajuste de inventario</option>
                         </select>
                     </div>
@@ -288,24 +286,40 @@
                         <small class="text-muted" id="destinoHelp"></small>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Material/Producto *</label>
-                            <select class="form-select" id="item" required>
-                                <option value="">Seleccione...</option>
-                                <option value="MAT-002">Madera Pino 2x4</option>
-                                <option value="MAT-006">Madera Encino 3x6</option>
-                                <option value="MAT-001">Clavos 3"</option>
-                                <option value="104">Tarima 104</option>
-                                <option value="125">Tarima 125</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Cantidad *</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="cantidad" required>
-                                <span class="input-group-text">unidad</span>
+                    <!-- Items simples (para movimientos de un solo item) -->
+                    <div id="itemSimple">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Material/Producto *</label>
+                                <select class="form-select" id="item" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="MAT-002">Madera Pino 2x4</option>
+                                    <option value="MAT-006">Madera Encino 3x6</option>
+                                    <option value="MAT-001">Clavos 3"</option>
+                                    <option value="104">Tarima 104</option>
+                                    <option value="125">Tarima 125</option>
+                                </select>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cantidad *</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="cantidad" required>
+                                    <span class="input-group-text">unidad</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Items múltiples (para transferencias) -->
+                    <div id="itemsMultiples" style="display:none;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label mb-0">Materiales/Productos a transferir *</label>
+                            <button type="button" class="btn btn-success btn-sm" onclick="agregarItemTransferencia()">
+                                <i class="bi bi-plus-circle"></i> Agregar otro
+                            </button>
+                        </div>
+                        <div id="listaItemsTransferencia">
+                            <!-- Aquí se agregan dinámicamente los items -->
                         </div>
                     </div>
                     <div class="mb-3">
@@ -355,6 +369,8 @@
         }
     </script>
     <script>
+    let contadorItemsTransferencia = 0;
+
     function ajustarFormularioMovimiento() {
         const tipo = document.getElementById('tipoMovimiento').value;
         const origenRow = document.getElementById('baseOrigenRow');
@@ -363,7 +379,9 @@
         const destinoSelect = document.getElementById('baseDestino');
         const origenHelp = document.getElementById('origenHelp');
         const destinoHelp = document.getElementById('destinoHelp');
-        
+        const itemSimple = document.getElementById('itemSimple');
+        const itemsMultiples = document.getElementById('itemsMultiples');
+
         // Reset
         origenRow.style.display = 'none';
         destinoRow.style.display = 'none';
@@ -371,7 +389,13 @@
         destinoSelect.required = false;
         origenHelp.textContent = '';
         destinoHelp.textContent = '';
-        
+
+        // Reset items
+        itemSimple.style.display = 'block';
+        itemsMultiples.style.display = 'none';
+        document.getElementById('item').required = true;
+        document.getElementById('cantidad').required = true;
+
         switch(tipo) {
             case 'ENTRADA':
                 // Solo destino
@@ -379,14 +403,14 @@
                 destinoSelect.required = true;
                 destinoHelp.textContent = 'Base donde llegará el material del proveedor';
                 break;
-                
+
             case 'SALIDA':
                 // Solo origen
                 origenRow.style.display = 'block';
                 origenSelect.required = true;
                 origenHelp.textContent = 'Base desde donde sale la entrega al cliente';
                 break;
-                
+
             case 'TRANSFERENCIA':
                 // Ambos
                 origenRow.style.display = 'block';
@@ -395,18 +419,80 @@
                 destinoSelect.required = true;
                 origenHelp.textContent = 'Base desde donde sale el material';
                 destinoHelp.textContent = 'Base a donde llega el material';
+
+                // Mostrar items múltiples
+                itemSimple.style.display = 'none';
+                itemsMultiples.style.display = 'block';
+                document.getElementById('item').required = false;
+                document.getElementById('cantidad').required = false;
+
+                // Limpiar y agregar primer item
+                document.getElementById('listaItemsTransferencia').innerHTML = '';
+                contadorItemsTransferencia = 0;
+                agregarItemTransferencia();
                 break;
-                
+
             case 'CONSUMO':
             case 'MERMA':
             case 'AJUSTE':
                 // Solo origen
                 origenRow.style.display = 'block';
                 origenSelect.required = true;
-                origenHelp.textContent = tipo === 'CONSUMO' ? 'Base donde se usó en producción' : 
-                                         tipo === 'MERMA' ? 'Base donde ocurrió la merma' : 
+                origenHelp.textContent = tipo === 'CONSUMO' ? 'Base donde se usó en producción' :
+                                         tipo === 'MERMA' ? 'Base donde ocurrió la merma' :
                                          'Base donde se hace el ajuste';
                 break;
+        }
+    }
+
+    function agregarItemTransferencia() {
+        contadorItemsTransferencia++;
+        const lista = document.getElementById('listaItemsTransferencia');
+        const itemId = contadorItemsTransferencia;
+
+        const itemHTML = `
+            <div class="card mb-2" id="itemTransferencia_${itemId}">
+                <div class="card-body py-2 px-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-5">
+                            <select class="form-select form-select-sm item-transferencia" required>
+                                <option value="">Seleccione material/producto...</option>
+                                <option value="MAT-002">Madera Pino 2x4</option>
+                                <option value="MAT-006">Madera Encino 3x6</option>
+                                <option value="MAT-001">Clavos 3"</option>
+                                <option value="104">Tarima 104</option>
+                                <option value="125">Tarima 125</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group input-group-sm">
+                                <input type="number" class="form-control cantidad-transferencia" placeholder="Cantidad" required>
+                                <span class="input-group-text">unidad</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminarItemTransferencia(${itemId})" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        lista.insertAdjacentHTML('beforeend', itemHTML);
+    }
+
+    function eliminarItemTransferencia(id) {
+        const item = document.getElementById(`itemTransferencia_${id}`);
+        if (item) {
+            // Verificar que quede al menos un item
+            const items = document.querySelectorAll('#listaItemsTransferencia .card');
+            if (items.length > 1) {
+                item.remove();
+            } else {
+                mostrarNotificacion('Debe haber al menos un material en la transferencia', 'warning');
+            }
         }
     }
     
@@ -414,30 +500,60 @@
         const tipo = document.getElementById('tipoMovimiento').value;
         const baseOrigen = document.getElementById('baseOrigen').value;
         const baseDestino = document.getElementById('baseDestino').value;
-        const item = document.getElementById('item').value;
-        const cantidad = document.getElementById('cantidad').value;
-        
-        if (!tipo || !item || !cantidad) {
-            mostrarNotificacion('Complete todos los campos requeridos', 'error');
+
+        if (!tipo) {
+            mostrarNotificacion('Seleccione el tipo de movimiento', 'error');
             return;
         }
-        
+
         // Validar según tipo
         if ((tipo === 'SALIDA' || tipo === 'CONSUMO' || tipo === 'MERMA' || tipo === 'AJUSTE') && !baseOrigen) {
             mostrarNotificacion('Debe seleccionar la base de origen', 'error');
             return;
         }
-        
+
         if (tipo === 'ENTRADA' && !baseDestino) {
             mostrarNotificacion('Debe seleccionar la base de destino', 'error');
             return;
         }
-        
-        if (tipo === 'TRANSFERENCIA' && (!baseOrigen || !baseDestino)) {
-            mostrarNotificacion('Debe seleccionar origen y destino', 'error');
-            return;
+
+        if (tipo === 'TRANSFERENCIA') {
+            if (!baseOrigen || !baseDestino) {
+                mostrarNotificacion('Debe seleccionar origen y destino', 'error');
+                return;
+            }
+
+            if (baseOrigen === baseDestino) {
+                mostrarNotificacion('El origen y destino no pueden ser iguales', 'error');
+                return;
+            }
+
+            // Validar items múltiples
+            const itemsSelect = document.querySelectorAll('#listaItemsTransferencia .item-transferencia');
+            const cantidadesInput = document.querySelectorAll('#listaItemsTransferencia .cantidad-transferencia');
+
+            let todosValidos = true;
+            itemsSelect.forEach((select, index) => {
+                if (!select.value || !cantidadesInput[index].value || cantidadesInput[index].value <= 0) {
+                    todosValidos = false;
+                }
+            });
+
+            if (!todosValidos) {
+                mostrarNotificacion('Complete todos los materiales y cantidades de la transferencia', 'error');
+                return;
+            }
+        } else {
+            // Validar item simple
+            const item = document.getElementById('item').value;
+            const cantidad = document.getElementById('cantidad').value;
+
+            if (!item || !cantidad) {
+                mostrarNotificacion('Complete todos los campos requeridos', 'error');
+                return;
+            }
         }
-        
+
         mostrarNotificacion('Movimiento registrado exitosamente', 'success');
         const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevoMovimiento'));
         modal.hide();

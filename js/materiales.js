@@ -19,6 +19,14 @@ let materialesData = [
     { codigo: 'MAT-010', nombre: 'Cartón Troquelado', tipo: 'CARTÓN', stockActual: 950, unidad: 'm²', precioUnit: 95.00, stockMin: 400, stockOpt: 700, estado: 'Activo' }
 ];
 
+// Formatear moneda
+function formatearMoneda(valor) {
+    return new Intl.NumberFormat('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    }).format(valor);
+}
+
 // Calcular nivel de alerta
 function calcularNivelAlerta(material) {
     if (material.stockActual <= material.stockMin) {
@@ -94,28 +102,93 @@ function verDetalleMaterial(codigo) {
     if (material) {
         const alerta = calcularNivelAlerta(material);
         const valorStock = material.stockActual * material.precioUnit;
-        
-        alert(`Detalle de ${material.nombre}
 
-Código: ${material.codigo}
-Tipo: ${material.tipo}
-Stock Actual: ${material.stockActual} ${material.unidad}
-Precio Unitario: ${formatearMoneda(material.precioUnit)}
-Valor en Stock: ${formatearMoneda(valorStock)}
+        // Poblar información general
+        document.getElementById('nombreMaterialDetalle').textContent = material.nombre;
+        document.getElementById('detalleCodigo').textContent = material.codigo;
+        document.getElementById('detalleUnidad').textContent = material.unidad;
+        document.getElementById('detallePrecio').textContent = formatearMoneda(material.precioUnit);
+        document.getElementById('detalleEstado').innerHTML = material.estado === 'Activo'
+            ? '<span class="badge bg-success">Activo</span>'
+            : '<span class="badge bg-secondary">Inactivo</span>';
 
-Niveles:
-- Mínimo: ${material.stockMin} ${material.unidad}
-- Óptimo: ${material.stockOpt} ${material.unidad}
+        // Badge de tipo
+        const tipoClases = {
+            'MADERA': 'bg-warning',
+            'CARTÓN': 'bg-info',
+            'INSUMOS': 'bg-secondary'
+        };
+        document.getElementById('detalleTipo').innerHTML =
+            `<span class="badge ${tipoClases[material.tipo] || 'bg-secondary'}">${material.tipo}</span>`;
 
-Alerta: ${alerta.nivel}
+        // Información de stock y alerta
+        document.getElementById('detalleStockActual').textContent = `${material.stockActual} ${material.unidad}`;
+        document.getElementById('detalleStockMin').textContent = `${material.stockMin} ${material.unidad}`;
+        document.getElementById('detalleStockOpt').textContent = `${material.stockOpt} ${material.unidad}`;
 
-Esta funcionalidad mostrará un modal con:
-- Historial de movimientos
-- Stock por base
-- Gráfica de consumo
-- Proveedores
-- Productos que usan este material`);
+        // Estilo de la tarjeta según nivel de alerta
+        const cardAlerta = document.getElementById('cardAlertaNivel');
+        cardAlerta.className = 'card';
+        if (alerta.nivel === 'ROJO') {
+            cardAlerta.classList.add('border-danger', 'bg-danger', 'bg-opacity-10');
+        } else if (alerta.nivel === 'AMARILLO') {
+            cardAlerta.classList.add('border-warning', 'bg-warning', 'bg-opacity-10');
+        } else {
+            cardAlerta.classList.add('border-success', 'bg-success', 'bg-opacity-10');
+        }
+
+        // Icono de alerta
+        const iconoAlerta = document.getElementById('iconoAlerta');
+        iconoAlerta.className = 'bi ' + alerta.icono;
+
+        // Barra de progreso
+        const porcentaje = Math.min((material.stockActual / material.stockOpt) * 100, 100);
+        const barraProgreso = document.getElementById('barraProgreso');
+        barraProgreso.style.width = porcentaje + '%';
+        barraProgreso.className = 'progress-bar bg-' + alerta.clase;
+        if (alerta.nivel === 'VERDE') barraProgreso.classList.add('bg-success');
+
+        // Generar distribución por base (simulada proporcional)
+        const bases = ['TULA', 'WEG', 'SM', 'ATOTO'];
+        const distribucion = generarDistribucionBases(material.stockActual, bases);
+
+        let tablaHTML = '';
+        distribucion.forEach(item => {
+            const valor = item.stock * material.precioUnit;
+            tablaHTML += `
+                <tr>
+                    <td><strong>${item.base}</strong></td>
+                    <td class="text-center">${item.stock} ${material.unidad}</td>
+                    <td class="text-center">${item.porcentaje}%</td>
+                    <td class="text-end">${formatearMoneda(valor)}</td>
+                </tr>
+            `;
+        });
+        document.getElementById('tablaStockBases').innerHTML = tablaHTML;
+        document.getElementById('totalStockBases').textContent = `${material.stockActual} ${material.unidad}`;
+        document.getElementById('totalValorBases').textContent = formatearMoneda(valorStock);
+
+        // Valor total
+        document.getElementById('detalleValorTotal').textContent = formatearMoneda(valorStock);
+
+        // Mostrar modal
+        const modal = new bootstrap.Modal(document.getElementById('modalDetalleMaterial'));
+        modal.show();
     }
+}
+
+// Generar distribución simulada por bases
+function generarDistribucionBases(stockTotal, bases) {
+    // Distribución simulada: TULA 35%, WEG 25%, SM 25%, ATOTO 15%
+    const porcentajes = [35, 25, 25, 15];
+    return bases.map((base, i) => {
+        const stock = Math.round(stockTotal * porcentajes[i] / 100);
+        return {
+            base: base,
+            stock: stock,
+            porcentaje: porcentajes[i]
+        };
+    });
 }
 
 // Editar material

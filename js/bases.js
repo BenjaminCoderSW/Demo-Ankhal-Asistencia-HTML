@@ -2,19 +2,19 @@
 
 // Datos simulados de bases
 let basesData = [
-    { codigo: 'TULA', nombre: 'Base Tula de Allende', tipo: 'Mixta', estado: 'Activa', stockActual: 770000 },
-    { codigo: 'WEG', nombre: 'Planta WEG', tipo: 'Producción', estado: 'Activa', stockActual: 660000 },
-    { codigo: 'SM', nombre: 'Base SM', tipo: 'Almacén', estado: 'Activa', stockActual: 420000 },
-    { codigo: 'ATOTO', nombre: 'Base Atoto', tipo: 'Mixta', estado: 'Activa', stockActual: 330000 },
-    { codigo: 'ARKAM', nombre: 'Base Arkam', tipo: 'Mixta', estado: 'Activa', stockActual: 300000 },
-    { codigo: 'NAVE4', nombre: 'Nave 4', tipo: 'Almacén', estado: 'Activa', stockActual: 250000 },
-    { codigo: 'VOLTRAN', nombre: 'Base Voltran', tipo: 'Producción', estado: 'Activa', stockActual: 180000 },
-    { codigo: 'BRASKEM', nombre: 'Base Braskem', tipo: 'Mixta', estado: 'Activa', stockActual: 150000 },
-    { codigo: 'FIBRAMEX', nombre: 'Base Fibramex', tipo: 'Almacén', estado: 'Activa', stockActual: 120000 },
-    { codigo: 'QRO', nombre: 'Base Querétaro', tipo: 'Producción', estado: 'Activa', stockActual: 95000 },
-    { codigo: 'TULTENGO', nombre: 'Base Tultengo', tipo: 'Almacén', estado: 'Activa', stockActual: 75000 },
-    { codigo: 'MP', nombre: 'Materia Prima Central', tipo: 'Almacén', estado: 'Activa', stockActual: 450000 },
-    { codigo: 'PT', nombre: 'Producto Terminado Central', tipo: 'Almacén', estado: 'Activa', stockActual: 380000 }
+    { codigo: 'TULA', nombre: 'Base Tula de Allende', tipo: 'Mixta', estado: 'Activa', stockActual: 770000, metaTarimas: 500, metaCajas: 800, metaAccesorios: 200 },
+    { codigo: 'WEG', nombre: 'Planta WEG', tipo: 'Producción', estado: 'Activa', stockActual: 660000, metaTarimas: 600, metaCajas: 1000, metaAccesorios: 300 },
+    { codigo: 'SM', nombre: 'Base SM', tipo: 'Almacén', estado: 'Activa', stockActual: 420000, metaTarimas: 0, metaCajas: 0, metaAccesorios: 0 },
+    { codigo: 'ATOTO', nombre: 'Base Atoto', tipo: 'Mixta', estado: 'Activa', stockActual: 330000, metaTarimas: 350, metaCajas: 500, metaAccesorios: 150 },
+    { codigo: 'ARKAM', nombre: 'Base Arkam', tipo: 'Mixta', estado: 'Activa', stockActual: 300000, metaTarimas: 400, metaCajas: 600, metaAccesorios: 180 },
+    { codigo: 'NAVE4', nombre: 'Nave 4', tipo: 'Almacén', estado: 'Activa', stockActual: 250000, metaTarimas: 0, metaCajas: 0, metaAccesorios: 0 },
+    { codigo: 'VOLTRAN', nombre: 'Base Voltran', tipo: 'Producción', estado: 'Activa', stockActual: 180000, metaTarimas: 250, metaCajas: 400, metaAccesorios: 100 },
+    { codigo: 'BRASKEM', nombre: 'Base Braskem', tipo: 'Mixta', estado: 'Activa', stockActual: 150000, metaTarimas: 200, metaCajas: 350, metaAccesorios: 80 },
+    { codigo: 'FIBRAMEX', nombre: 'Base Fibramex', tipo: 'Almacén', estado: 'Activa', stockActual: 120000, metaTarimas: 0, metaCajas: 0, metaAccesorios: 0 },
+    { codigo: 'QRO', nombre: 'Base Querétaro', tipo: 'Producción', estado: 'Activa', stockActual: 95000, metaTarimas: 300, metaCajas: 450, metaAccesorios: 120 },
+    { codigo: 'TULTENGO', nombre: 'Base Tultengo', tipo: 'Almacén', estado: 'Activa', stockActual: 75000, metaTarimas: 0, metaCajas: 0, metaAccesorios: 0 },
+    { codigo: 'MP', nombre: 'Materia Prima Central', tipo: 'Almacén', estado: 'Activa', stockActual: 450000, metaTarimas: 0, metaCajas: 0, metaAccesorios: 0 },
+    { codigo: 'PT', nombre: 'Producto Terminado Central', tipo: 'Almacén', estado: 'Activa', stockActual: 380000, metaTarimas: 0, metaCajas: 0, metaAccesorios: 0 }
 ];
 
 // Guardar nueva base

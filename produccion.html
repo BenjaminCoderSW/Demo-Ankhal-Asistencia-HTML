@@ -603,6 +603,41 @@
                                 <input type="number" class="form-control" id="metaDiaria" value="1500" readonly>
                             </div>
                         </div>
+
+                        <!-- Sección Materiales Utilizados -->
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0"><i class="bi bi-box-seam"></i> Materiales Utilizados</h6>
+                            <span class="badge bg-info" id="badgeProductoSeleccionado">Seleccione un producto</span>
+                        </div>
+
+                        <div id="materialesUtilizadosContainer">
+                            <div class="alert alert-secondary text-center" id="mensajeSinProducto">
+                                <i class="bi bi-info-circle"></i> Seleccione un producto para ver los materiales requeridos
+                            </div>
+
+                            <div id="tablaMaterialesWrapper" style="display: none;">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered" id="tablaMaterialesUtilizados">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Material</th>
+                                                <th class="text-center" style="width: 140px;">Cant. Teórica</th>
+                                                <th class="text-center" style="width: 120px;">Cant. Real</th>
+                                                <th class="text-center" style="width: 90px;">Diferencia</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyMaterialesUtilizados">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="alert alert-warning small py-2 mb-3">
+                                    <i class="bi bi-info-circle"></i>
+                                    La cantidad teórica se multiplica por las unidades producidas (buena + rechazo).
+                                </div>
+                            </div>
+                        </div>
+
                         <hr>
                         <h6>Mermas Generadas</h6>
                         <div id="mermasContainer">
@@ -644,6 +679,187 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script>
+        // Datos de productos con sus componentes de materiales
+        const productosProduccion = [
+            {
+                codigo: '104',
+                nombre: 'Tarima Estándar 100x120cm',
+                componentes: [
+                    { material: 'MAT-002', nombre: 'Madera Pino 2x4', cantidad: '20-30 piezas' },
+                    { material: 'MAT-001', nombre: 'Clavos 3"', cantidad: '0.5-0.8 kg' },
+                    { material: 'MAT-003', nombre: 'Arandelas M8', cantidad: '0.2-0.3 kg' }
+                ]
+            },
+            {
+                codigo: '125',
+                nombre: 'Tarima Industrial 120x120cm',
+                componentes: [
+                    { material: 'MAT-002', nombre: 'Madera Pino 2x4', cantidad: '30-40 piezas' },
+                    { material: 'MAT-006', nombre: 'Madera Encino 3x6', cantidad: '10-15 piezas' },
+                    { material: 'MAT-001', nombre: 'Clavos 3"', cantidad: '0.8-1.2 kg' },
+                    { material: 'MAT-003', nombre: 'Arandelas M8', cantidad: '0.3-0.5 kg' }
+                ]
+            },
+            {
+                codigo: 'CAJA-RSC-01',
+                nombre: 'Caja RSC 40x30x30cm',
+                componentes: [
+                    { material: 'MAT-004', nombre: 'Cartón RSC', cantidad: '0.8-1.2 m²' },
+                    { material: 'MAT-008', nombre: 'Adhesivo', cantidad: '0.05-0.1 litros' }
+                ]
+            }
+        ];
+
+        function obtenerProductoPorCodigo(codigo) {
+            return productosProduccion.find(p => p.codigo === codigo);
+        }
+
+        function parsearRangoCantidad(rangoTexto) {
+            const regex = /(\d+\.?\d*)\s*-\s*(\d+\.?\d*)\s*(\S+)/;
+            const match = rangoTexto.match(regex);
+            if (match) {
+                return { min: parseFloat(match[1]), max: parseFloat(match[2]), unidad: match[3] };
+            }
+            const regexSimple = /(\d+\.?\d*)\s*(\S+)/;
+            const matchSimple = rangoTexto.match(regexSimple);
+            if (matchSimple) {
+                return { min: parseFloat(matchSimple[1]), max: parseFloat(matchSimple[1]), unidad: matchSimple[2] };
+            }
+            return null;
+        }
+
+        function cargarMaterialesPorProducto(codigoProducto) {
+            const mensajeSinProducto = document.getElementById('mensajeSinProducto');
+            const tablaMaterialesWrapper = document.getElementById('tablaMaterialesWrapper');
+            const tbody = document.getElementById('tbodyMaterialesUtilizados');
+            const badge = document.getElementById('badgeProductoSeleccionado');
+
+            if (!codigoProducto) {
+                mensajeSinProducto.style.display = 'block';
+                tablaMaterialesWrapper.style.display = 'none';
+                badge.textContent = 'Seleccione un producto';
+                badge.className = 'badge bg-info';
+                return;
+            }
+
+            const producto = obtenerProductoPorCodigo(codigoProducto);
+
+            if (!producto || !producto.componentes || producto.componentes.length === 0) {
+                mensajeSinProducto.innerHTML = '<i class="bi bi-exclamation-circle"></i> Este producto no tiene componentes definidos';
+                mensajeSinProducto.style.display = 'block';
+                tablaMaterialesWrapper.style.display = 'none';
+                return;
+            }
+
+            badge.textContent = producto.nombre;
+            badge.className = 'badge bg-success';
+            mensajeSinProducto.style.display = 'none';
+            tablaMaterialesWrapper.style.display = 'block';
+
+            tbody.innerHTML = '';
+            producto.componentes.forEach((comp, index) => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>
+                        <strong>${comp.nombre}</strong>
+                        <input type="hidden" name="materialUtilizado[]" value="${comp.material}">
+                        <br><small class="text-muted">${comp.material}</small>
+                    </td>
+                    <td class="text-center">
+                        <span class="cantidad-teorica" data-rango="${comp.cantidad}" data-index="${index}">
+                            ${comp.cantidad}
+                        </span>
+                        <br><small class="text-muted" id="cantidadCalculada_${index}">-</small>
+                    </td>
+                    <td>
+                        <input type="number"
+                               class="form-control form-control-sm text-center cantidad-real-input"
+                               name="cantidadReal[]"
+                               data-index="${index}"
+                               step="0.01"
+                               min="0"
+                               placeholder="0.00"
+                               onchange="calcularDiferencia(${index})">
+                    </td>
+                    <td class="text-center" id="diferencia_${index}">
+                        <span class="badge bg-secondary">-</span>
+                    </td>
+                `;
+                tbody.appendChild(fila);
+            });
+
+            recalcularCantidadesTeorica();
+        }
+
+        function recalcularCantidadesTeorica() {
+            const cantidadBuena = parseInt(document.getElementById('cantidadBuena').value) || 0;
+            const cantidadRechazo = parseInt(document.getElementById('cantidadRechazo').value) || 0;
+            const cantidadTotal = cantidadBuena + cantidadRechazo;
+
+            document.querySelectorAll('.cantidad-teorica').forEach(span => {
+                const index = span.dataset.index;
+                const rango = span.dataset.rango;
+                const valores = parsearRangoCantidad(rango);
+
+                if (cantidadTotal > 0 && valores) {
+                    const minTotal = (valores.min * cantidadTotal).toFixed(2);
+                    const maxTotal = (valores.max * cantidadTotal).toFixed(2);
+                    document.getElementById(`cantidadCalculada_${index}`).textContent =
+                        `${minTotal} - ${maxTotal} ${valores.unidad}`;
+                } else {
+                    document.getElementById(`cantidadCalculada_${index}`).textContent = '-';
+                }
+
+                calcularDiferencia(parseInt(index));
+            });
+        }
+
+        function calcularDiferencia(index) {
+            const inputReal = document.querySelector(`input[name="cantidadReal[]"][data-index="${index}"]`);
+            if (!inputReal) return;
+
+            const cantidadReal = parseFloat(inputReal.value) || 0;
+            const spanTeorica = document.querySelector(`.cantidad-teorica[data-index="${index}"]`);
+            if (!spanTeorica) return;
+
+            const rango = spanTeorica.dataset.rango;
+            const cantidadBuena = parseInt(document.getElementById('cantidadBuena').value) || 0;
+            const cantidadRechazo = parseInt(document.getElementById('cantidadRechazo').value) || 0;
+            const cantidadTotal = cantidadBuena + cantidadRechazo;
+            const valores = parsearRangoCantidad(rango);
+            const diferenciaEl = document.getElementById(`diferencia_${index}`);
+
+            if (!valores || cantidadTotal === 0 || cantidadReal === 0) {
+                diferenciaEl.innerHTML = '<span class="badge bg-secondary">-</span>';
+                return;
+            }
+
+            const esperadoMin = valores.min * cantidadTotal;
+            const esperadoMax = valores.max * cantidadTotal;
+            const esperadoPromedio = (esperadoMin + esperadoMax) / 2;
+
+            let diferencia = cantidadReal - esperadoPromedio;
+            let badgeClass = 'bg-success';
+
+            if (cantidadReal < esperadoMin) {
+                badgeClass = 'bg-info';
+            } else if (cantidadReal > esperadoMax) {
+                badgeClass = 'bg-warning';
+            }
+
+            const signo = diferencia > 0 ? '+' : '';
+            diferenciaEl.innerHTML = `<span class="badge ${badgeClass}">${signo}${diferencia.toFixed(2)}</span>`;
+        }
+
+        // Event listeners para actualización dinámica
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('productoFabricado').addEventListener('change', function() {
+                cargarMaterialesPorProducto(this.value);
+            });
+            document.getElementById('cantidadBuena').addEventListener('input', recalcularCantidadesTeorica);
+            document.getElementById('cantidadRechazo').addEventListener('input', recalcularCantidadesTeorica);
+        });
+
         function agregarMerma() {
             const container = document.getElementById('mermasContainer');
             const nuevaMerma = document.createElement('div');
@@ -678,15 +894,66 @@
             const base = document.getElementById('baseProduccion').value;
             const producto = document.getElementById('productoFabricado').value;
             const cantidadBuena = document.getElementById('cantidadBuena').value;
+            const cantidadRechazo = document.getElementById('cantidadRechazo').value || 0;
+            const observaciones = document.getElementById('observacionesProd').value;
 
             if (!base || !producto || !cantidadBuena) {
                 mostrarNotificacion('Complete todos los campos requeridos', 'error');
                 return;
             }
 
+            // Recopilar materiales utilizados
+            const materialesUtilizados = [];
+            const materialesInputs = document.querySelectorAll('input[name="materialUtilizado[]"]');
+            const cantidadesReales = document.querySelectorAll('input[name="cantidadReal[]"]');
+
+            materialesInputs.forEach((mat, index) => {
+                const cantidadReal = parseFloat(cantidadesReales[index].value) || 0;
+                materialesUtilizados.push({
+                    material: mat.value,
+                    cantidadReal: cantidadReal
+                });
+            });
+
+            // Recopilar mermas
+            const mermas = [];
+            const mermasMateriales = document.querySelectorAll('select[name="materialMerma[]"]');
+            const mermasCantidades = document.querySelectorAll('input[name="cantidadMerma[]"]');
+
+            mermasMateriales.forEach((mat, index) => {
+                if (mat.value && mermasCantidades[index].value) {
+                    mermas.push({
+                        material: mat.value,
+                        cantidad: parseFloat(mermasCantidades[index].value)
+                    });
+                }
+            });
+
+            // Objeto de datos de producción (para visualización/debug)
+            const datosProduccion = {
+                fecha: new Date().toISOString(),
+                base: base,
+                producto: producto,
+                cantidadBuena: parseInt(cantidadBuena),
+                cantidadRechazo: parseInt(cantidadRechazo),
+                materialesUtilizados: materialesUtilizados,
+                mermas: mermas,
+                observaciones: observaciones
+            };
+
+            console.log('Datos de Producción:', datosProduccion);
+
             mostrarNotificacion('Producción registrada exitosamente', 'success');
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaProduccion'));
             modal.hide();
+
+            // Limpiar sección de materiales
+            document.getElementById('formNuevaProduccion').reset();
+            document.getElementById('mensajeSinProducto').style.display = 'block';
+            document.getElementById('tablaMaterialesWrapper').style.display = 'none';
+            document.getElementById('badgeProductoSeleccionado').textContent = 'Seleccione un producto';
+            document.getElementById('badgeProductoSeleccionado').className = 'badge bg-info';
+
             setTimeout(() => location.reload(), 1000);
         }
     </script>

@@ -312,17 +312,27 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <h6><i class="bi bi-info-circle"></i> Información General</h6>
-                            <p class="mb-1"><strong>Tipo:</strong> Planta de Producción</p>
+                            <p class="mb-1"><strong>Tipo:</strong> <span id="tipoBaseModal">-</span></p>
                             <p class="mb-1"><strong>Ubicación:</strong> Tula de Allende, Hidalgo</p>
                             <p class="mb-1"><strong>Responsable:</strong> Juan Pérez</p>
-                            <p class="mb-1"><strong>Meta Diaria:</strong> 500 unidades</p>
+                            <p class="mb-1"><strong>Meta Diaria:</strong> 1500 unidades</p>
+                            <p class="mb-1"><strong>Estado:</strong> <span id="estadoBaseModal">-</span></p>
                         </div>
                         <div class="col-md-6">
                             <h6><i class="bi bi-box-seam"></i> Resumen de Stock</h6>
-                            <p class="mb-1"><strong>Valor Total:</strong> $770,000</p>
+                            <p class="mb-1"><strong>Valor Total:</strong> <span id="stockBaseModal">-</span></p>
                             <p class="mb-1"><strong>Productos:</strong> $450,000</p>
                             <p class="mb-1"><strong>Materiales:</strong> $320,000</p>
                             <p class="mb-1"><strong>Alertas:</strong> <span class="badge bg-danger">3 críticas</span></p>
+                        </div>
+                    </div>
+                    <!-- Sección de Meta Diaria -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h6><i class="bi bi-graph-up"></i> Meta Diaria de Producción</h6>
+                            <div id="metaDiariaContent">
+                                <!-- Se llena dinámicamente -->
+                            </div>
                         </div>
                     </div>
                     <div class="alert alert-info mb-0">
@@ -342,8 +352,67 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/bases.js"></script>
     <script>
+        function formatearMoneda(valor) {
+            return '$' + valor.toLocaleString('es-MX');
+        }
+
         function verDetalle(codigoBase) {
-            document.getElementById('nombreBaseModal').textContent = codigoBase;
+            const base = basesData.find(b => b.codigo === codigoBase);
+            if (!base) return;
+
+            // Llenar información básica
+            document.getElementById('nombreBaseModal').textContent = base.nombre;
+            document.getElementById('tipoBaseModal').textContent = base.tipo;
+            document.getElementById('estadoBaseModal').innerHTML = base.estado === 'Activa'
+                ? '<span class="badge bg-success">Activa</span>'
+                : '<span class="badge bg-secondary">Inactiva</span>';
+            document.getElementById('stockBaseModal').textContent = formatearMoneda(base.stockActual);
+
+            // Llenar meta diaria según el tipo de base
+            const metaDiariaContent = document.getElementById('metaDiariaContent');
+
+            if (base.tipo === 'Almacén') {
+                // Base de almacenamiento - no aplica meta diaria
+                metaDiariaContent.innerHTML = `
+                    <div class="alert alert-secondary mb-0">
+                        <i class="bi bi-info-circle"></i> Esta base es de almacenamiento, no aplica meta de producción diaria.
+                    </div>
+                `;
+            } else {
+                // Base de Producción o Mixta - mostrar desglose
+                metaDiariaContent.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center py-2">
+                                    <i class="bi bi-box-seam text-primary"></i>
+                                    <h6 class="mb-0">${base.metaTarimas.toLocaleString('es-MX')}</h6>
+                                    <small class="text-muted">Tarimas/día</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center py-2">
+                                    <i class="bi bi-boxes text-success"></i>
+                                    <h6 class="mb-0">${base.metaCajas.toLocaleString('es-MX')}</h6>
+                                    <small class="text-muted">Cajas/día</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center py-2">
+                                    <i class="bi bi-tools text-warning"></i>
+                                    <h6 class="mb-0">${base.metaAccesorios.toLocaleString('es-MX')}</h6>
+                                    <small class="text-muted">Accesorios/día</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
             const modal = new bootstrap.Modal(document.getElementById('modalDetalleBase'));
             modal.show();
         }
