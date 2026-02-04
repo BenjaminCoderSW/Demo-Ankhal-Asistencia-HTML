@@ -25,39 +25,29 @@
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="bases.html">
-                            <i class="bi bi-building"></i> Bases/Plantas
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear-fill"></i> Configuración
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
+                            <li><a class="dropdown-item" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
+                            <li><a class="dropdown-item" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="materiales.html">
-                            <i class="bi bi-box"></i> Materiales
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-arrow-repeat"></i> Operaciones
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="productos.html">
-                            <i class="bi bi-grid-3x3-gap"></i> Productos
-                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
+                            <li><a class="dropdown-item" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
+                            <li><a class="dropdown-item" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="inventario.html">
                             <i class="bi bi-clipboard-data"></i> Inventario
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="movimientos.html">
-                            <i class="bi bi-arrow-left-right"></i> Movimientos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="produccion.html">
-                            <i class="bi bi-gear"></i> Producción
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="entregas.html">
-                            <i class="bi bi-truck"></i> Entregas
                         </a>
                     </li>
                 </ul>
@@ -127,25 +117,30 @@
         <!-- Cards de Métricas -->
         <div class="row mb-4">
             <!-- Producción Hoy -->
-            <div class="col-md-3 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                 <div class="card h-100 border-primary">
                     <div class="card-body text-center">
                         <i class="bi bi-gear-fill text-primary" style="font-size: 3rem;"></i>
                         <h6 class="text-muted mt-2">PRODUCCIÓN HOY</h6>
                         <h2 class="mb-0">1,250</h2>
-                        <p class="text-muted">piezas totales</p>
+                        <p class="text-muted mb-1">total producido</p>
+                        <ul class="list-unstyled text-start small mb-2">
+                            <li><i class="bi bi-box"></i> Tarimas: 680</li>
+                            <li><i class="bi bi-box2"></i> Cajas: 520</li>
+                            <li><i class="bi bi-tools"></i> Accesorios: 50</li>
+                        </ul>
                         <div class="progress" style="height: 25px;">
                             <div class="progress-bar bg-warning" role="progressbar" style="width: 83%">
                                 83% de meta
                             </div>
                         </div>
-                        <small class="text-muted">Meta: 1,500 piezas</small>
+                        <small class="text-muted">Meta: 1,500 (suma de todas las bases)</small>
                     </div>
                 </div>
             </div>
 
             <!-- Entregas Hoy -->
-            <div class="col-md-3 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                 <div class="card h-100 border-success">
                     <div class="card-body text-center">
                         <i class="bi bi-truck text-success" style="font-size: 3rem;"></i>
@@ -153,30 +148,63 @@
                         <h2 class="mb-0">3</h2>
                         <p class="text-muted">entregas completadas</p>
                         <ul class="list-unstyled text-start small">
-                            <li><i class="bi bi-check-circle-fill text-success"></i> EMPRESA ABC - 50 pzas</li>
-                            <li><i class="bi bi-check-circle-fill text-success"></i> VOLTRAN - 120 pzas</li>
-                            <li><i class="bi bi-check-circle-fill text-success"></i> FIBRAMEX - 80 pzas</li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> <strong>EMPRESA ABC</strong><br>
+                                <small class="text-muted ms-3">• 50 Tarimas 104</small></li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> <strong>VOLTRAN</strong><br>
+                                <small class="text-muted ms-3">• 70 Tarimas 125<br>• 50 Cajas RSC-01</small></li>
+                            <li><i class="bi bi-check-circle-fill text-success"></i> <strong>FIBRAMEX</strong><br>
+                                <small class="text-muted ms-3">• 80 Cajas DP-01</small></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <!-- Valor Inventario -->
-            <div class="col-md-3 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                 <div class="card h-100 border-info">
                     <div class="card-body text-center">
                         <i class="bi bi-cash-stack text-info" style="font-size: 3rem;"></i>
                         <h6 class="text-muted mt-2">VALOR INVENTARIO</h6>
-                        <h2 class="mb-0">$2,340,000</h2>
-                        <p class="text-muted">total en stock</p>
-                        <div class="row text-start small">
-                            <div class="col-6">
-                                <strong>Materiales:</strong><br>
-                                $1,120,000
+                        <h2 class="mb-0">$2,840,000</h2>
+                        <p class="text-muted mb-1">total en stock</p>
+                        <div class="text-start small mt-3">
+                            <div class="mb-2">
+                                <strong>Insumos:</strong> $420,000
+                                <div class="text-muted ms-2">Clavos, Tuercas, etc.</div>
                             </div>
-                            <div class="col-6">
-                                <strong>Productos:</strong><br>
-                                $1,220,000
+                            <div class="mb-2">
+                                <strong>Materiales:</strong> $700,000
+                                <div class="text-muted ms-2">Cartón, Madera</div>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Productos:</strong> $1,720,000
+                                <div class="text-muted ms-2">Tarimas, Cajas, Accesorios</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock por Cantidad -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card h-100 border-secondary">
+                    <div class="card-body text-center">
+                        <i class="bi bi-boxes text-secondary" style="font-size: 3rem;"></i>
+                        <h6 class="text-muted mt-2">STOCK TOTAL</h6>
+                        <h2 class="mb-0">12,850</h2>
+                        <p class="text-muted mb-1">unidades totales</p>
+                        <div class="text-start small mt-3">
+                            <div class="mb-2">
+                                <strong>Insumos:</strong> 1,250 kg
+                                <div class="text-muted ms-2">Clavos, Tuercas, etc.</div>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Materiales:</strong> 3,150 und
+                                <div class="text-muted ms-2">Cartón: 920 m²<br>Madera: 2,230 pies</div>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Productos:</strong> 8,450 und
+                                <div class="text-muted ms-2">Tarimas, Cajas, Accesorios</div>
                             </div>
                         </div>
                     </div>
@@ -184,7 +212,7 @@
             </div>
 
             <!-- Movimientos Hoy -->
-            <div class="col-md-3 mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
                 <div class="card h-100 border-warning">
                     <div class="card-body text-center">
                         <i class="bi bi-arrow-left-right text-warning" style="font-size: 3rem;"></i>
@@ -223,31 +251,31 @@
                             <tbody>
                                 <tr>
                                     <td>Lunes</td>
-                                    <td>1,420 pzas</td>
+                                    <td>1,420</td>
                                     <td>1,500</td>
                                     <td><span class="badge bg-success">95%</span></td>
                                 </tr>
                                 <tr>
                                     <td>Martes</td>
-                                    <td>1,580 pzas</td>
+                                    <td>1,580</td>
                                     <td>1,500</td>
                                     <td><span class="badge bg-success">105%</span></td>
                                 </tr>
                                 <tr>
                                     <td>Miércoles</td>
-                                    <td>1,350 pzas</td>
+                                    <td>1,350</td>
                                     <td>1,500</td>
                                     <td><span class="badge bg-warning">90%</span></td>
                                 </tr>
                                 <tr>
                                     <td>Jueves</td>
-                                    <td>1,480 pzas</td>
+                                    <td>1,480</td>
                                     <td>1,500</td>
                                     <td><span class="badge bg-success">99%</span></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Viernes (Hoy)</strong></td>
-                                    <td><strong>1,250 pzas</strong></td>
+                                    <td><strong>1,250</strong></td>
                                     <td><strong>1,500</strong></td>
                                     <td><span class="badge bg-warning">83%</span></td>
                                 </tr>
@@ -255,7 +283,7 @@
                             <tfoot>
                                 <tr class="table-secondary">
                                     <td><strong>TOTAL</strong></td>
-                                    <td><strong>7,080 pzas</strong></td>
+                                    <td><strong>7,080</strong></td>
                                     <td><strong>7,500</strong></td>
                                     <td><span class="badge bg-success">94%</span></td>
                                 </tr>

@@ -25,39 +25,29 @@
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="bases.html">
-                            <i class="bi bi-building"></i> Bases/Plantas
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear-fill"></i> Configuración
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
+                            <li><a class="dropdown-item" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
+                            <li><a class="dropdown-item active" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="materiales.html">
-                            <i class="bi bi-box"></i> Materiales
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-arrow-repeat"></i> Operaciones
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="productos.html">
-                            <i class="bi bi-grid-3x3-gap"></i> Productos
-                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
+                            <li><a class="dropdown-item" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
+                            <li><a class="dropdown-item" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="inventario.html">
                             <i class="bi bi-clipboard-data"></i> Inventario
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="movimientos.html">
-                            <i class="bi bi-arrow-left-right"></i> Movimientos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="produccion.html">
-                            <i class="bi bi-gear"></i> Producción
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="entregas.html">
-                            <i class="bi bi-truck"></i> Entregas
                         </a>
                     </li>
                 </ul>
@@ -415,8 +405,106 @@
         </div>
     </div>
 
+    <!-- Modal Ver Detalle Producto (Estado Actual) -->
+    <div class="modal fade" id="modalDetalleProducto" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-grid-3x3-gap"></i> Estado del Producto: <span id="nombreProductoDetalle">104</span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card text-center border-success">
+                                <div class="card-body">
+                                    <h6 class="text-muted">BUENAS</h6>
+                                    <h3 class="text-success">730</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center border-danger">
+                                <div class="card-body">
+                                    <h6 class="text-muted">RECHAZO</h6>
+                                    <h3 class="text-danger">20</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center border-primary">
+                                <div class="card-body">
+                                    <h6 class="text-muted">STOCK TOTAL</h6>
+                                    <h3 class="text-primary">750</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center border-info">
+                                <div class="card-body">
+                                    <h6 class="text-muted">% CALIDAD</h6>
+                                    <h3 class="text-info">97.3%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-3 mb-0">
+                        <small><i class="bi bi-info-circle"></i> Para ver el desglose por base, consulta el módulo de Inventario.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i> Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/productos.js"></script>
+    <script>
+        function verDetalleProducto(codigoProducto) {
+            document.getElementById('nombreProductoDetalle').textContent = codigoProducto;
+            const modal = new bootstrap.Modal(document.getElementById('modalDetalleProducto'));
+            modal.show();
+        }
+
+        function verComponentes(codigoProducto) {
+            // Ejemplo de componentes
+            const componentes = {
+                '104': [
+                    { material: 'Madera Pino 2x4', cantidad: '20-30 pies' },
+                    { material: 'Clavos 3"', cantidad: '0.5-0.8 kg' },
+                    { material: 'Arandelas M8', cantidad: '0.2-0.3 kg' }
+                ]
+            };
+
+            const detalleHtml = `
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Cantidad Aproximada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${componentes['104'].map(c => `
+                            <tr>
+                                <td>${c.material}</td>
+                                <td>${c.cantidad}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('componentesDetalle').innerHTML = detalleHtml;
+            const modal = new bootstrap.Modal(document.getElementById('modalComponentes'));
+            modal.show();
+        }
+    </script>
 </body>
 </html>

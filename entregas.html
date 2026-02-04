@@ -19,14 +19,36 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
-                    <li class="nav-item"><a class="nav-link" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="inventario.html"><i class="bi bi-clipboard-data"></i> Inventario</a></li>
-                    <li class="nav-item"><a class="nav-link" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear-fill"></i> Configuración
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
+                            <li><a class="dropdown-item" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
+                            <li><a class="dropdown-item" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-arrow-repeat"></i> Operaciones
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
+                            <li><a class="dropdown-item active" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
+                            <li><a class="dropdown-item" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="inventario.html">
+                            <i class="bi bi-clipboard-data"></i> Inventario
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -52,7 +74,12 @@
                         <i class="bi bi-check-circle text-success" style="font-size: 2.5rem;"></i>
                         <h4 class="mt-2">3</h4>
                         <p class="mb-0">Entregas Hoy</p>
-                        <small class="text-muted">250 piezas totales</small>
+                        <small class="text-muted">Desglose:</small>
+                        <ul class="list-unstyled small text-start mt-2">
+                            <li>• 50 Tarimas 104</li>
+                            <li>• 70 Tarimas 125</li>
+                            <li>• 130 Cajas (varios tipos)</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -683,7 +710,118 @@
         
         // Ver detalle
         function verDetalleEntrega(id) {
-            alert(`Ver detalle de entrega #${id}\n\nEsta funcionalidad mostrará datos acidionales en caso de requerirse:`);
+            // Datos ficticios de ejemplo para cada entrega
+            const entregas = {
+                1: {
+                    cliente: 'EMPRESA ABC',
+                    fecha: '16/01/2026',
+                    base: 'TULA',
+                    productos: [
+                        { nombre: 'Tarima 104', codigo: '104', cantidad: 50, precio: 280, total: 14000, status: 'Entregada' }
+                    ]
+                },
+                2: {
+                    cliente: 'VOLTRAN',
+                    fecha: '16/01/2026',
+                    base: 'WEG',
+                    productos: [
+                        { nombre: 'Tarima 125', codigo: '125', cantidad: 70, precio: 340, total: 23800, status: 'Entregada' },
+                        { nombre: 'Caja RSC-01', codigo: 'CAJA-RSC-01', cantidad: 50, precio: 45, total: 2250, status: 'Entregada' }
+                    ]
+                },
+                3: {
+                    cliente: 'FIBRAMEX',
+                    fecha: '16/01/2026',
+                    base: 'SM',
+                    productos: [
+                        { nombre: 'Caja DP-01', codigo: 'CAJA-DP-01', cantidad: 80, precio: 95, total: 7600, status: 'Entregada' }
+                    ]
+                }
+            };
+
+            const entrega = entregas[id] || entregas[1];
+            const totalEntrega = entrega.productos.reduce((sum, p) => sum + p.total, 0);
+
+            let productosHtml = '';
+            entrega.productos.forEach(producto => {
+                productosHtml += `
+                    <tr>
+                        <td>${producto.codigo}</td>
+                        <td><strong>${producto.nombre}</strong></td>
+                        <td class="text-center">${producto.cantidad}</td>
+                        <td>$${producto.precio.toLocaleString()}</td>
+                        <td class="text-end"><strong>$${producto.total.toLocaleString()}</strong></td>
+                        <td class="text-center"><span class="badge bg-success">${producto.status}</span></td>
+                    </tr>
+                `;
+            });
+
+            const modalContent = `
+                <div class="modal fade" id="modalDetalleEntrega${id}" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title"><i class="bi bi-truck"></i> Detalle de Entrega #${id}</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <p><strong>Cliente:</strong> ${entrega.cliente}</p>
+                                        <p><strong>Fecha:</strong> ${entrega.fecha}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Base Origen:</strong> ${entrega.base}</p>
+                                        <p><strong>Estado:</strong> <span class="badge bg-success">Entregada</span></p>
+                                    </div>
+                                </div>
+                                <h6 class="mb-3"><i class="bi bi-box-seam"></i> Productos Entregados</h6>
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Producto</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th>Precio Unit.</th>
+                                            <th class="text-end">Total</th>
+                                            <th class="text-center">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${productosHtml}
+                                    </tbody>
+                                    <tfoot class="table-secondary">
+                                        <tr>
+                                            <td colspan="4" class="text-end"><strong>TOTAL ENTREGA:</strong></td>
+                                            <td class="text-end"><strong>$${totalEntrega.toLocaleString()}</strong></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="bi bi-printer"></i> Imprimir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Eliminar modal anterior si existe
+            const modalAnterior = document.getElementById(`modalDetalleEntrega${id}`);
+            if (modalAnterior) {
+                modalAnterior.remove();
+            }
+
+            // Agregar nuevo modal al body
+            document.body.insertAdjacentHTML('beforeend', modalContent);
+
+            // Mostrar el modal
+            const modal = new bootstrap.Modal(document.getElementById(`modalDetalleEntrega${id}`));
+            modal.show();
         }
     </script>
 </body>
