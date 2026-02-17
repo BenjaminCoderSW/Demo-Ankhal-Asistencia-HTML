@@ -9,717 +9,301 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Navbar (igual que en otras páginas) -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
-                <i class="bi bi-box-seam"></i> ANKHAL - Sistema de Inventario
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear-fill"></i> Configuración
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
-                            <li><a class="dropdown-item active" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
-                            <li><a class="dropdown-item" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-arrow-repeat"></i> Operaciones
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
-                            <li><a class="dropdown-item" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
-                            <li><a class="dropdown-item" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="inventario.html">
-                            <i class="bi bi-clipboard-data"></i> Inventario
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html"><i class="bi bi-box-seam"></i> ANKHAL - Sistema de Inventario</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-gear-fill"></i> Configuración</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
+                        <li><a class="dropdown-item active" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
+                        <li><a class="dropdown-item" href="productos.html"><i class="bi bi-grid-3x3-gap"></i> Productos</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-arrow-repeat"></i> Operaciones</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
+                        <li><a class="dropdown-item" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
+                        <li><a class="dropdown-item" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="inventario.html"><i class="bi bi-clipboard-data"></i> Inventario</a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- Main Content -->
-    <div class="container-fluid mt-4">
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-box"></i> Catálogo de Materiales</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoMaterial"><i class="bi bi-plus-circle"></i> Nuevo Material</button>
+    </div>
+
+    <!-- Resumen alertas -->
+    <div class="row mb-4">
+        <div class="col-md-4"><div class="card border-danger"><div class="card-body text-center"><i class="bi bi-exclamation-circle-fill text-danger" style="font-size:2.5rem;"></i><h3 class="mt-2">5</h3><p class="mb-0">Materiales en <strong class="text-danger">ROJO</strong></p><small class="text-muted">Stock crítico</small></div></div></div>
+        <div class="col-md-4"><div class="card border-warning"><div class="card-body text-center"><i class="bi bi-exclamation-triangle-fill text-warning" style="font-size:2.5rem;"></i><h3 class="mt-2">12</h3><p class="mb-0">Materiales en <strong class="text-warning">AMARILLO</strong></p><small class="text-muted">Stock bajo</small></div></div></div>
+        <div class="col-md-4"><div class="card border-success"><div class="card-body text-center"><i class="bi bi-check-circle-fill text-success" style="font-size:2.5rem;"></i><h3 class="mt-2">44</h3><p class="mb-0">Materiales en <strong class="text-success">VERDE</strong></p><small class="text-muted">Stock óptimo</small></div></div></div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filter-section mb-4">
         <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2><i class="bi bi-box"></i> Catálogo de Materiales</h2>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoMaterial">
-                        <i class="bi bi-plus-circle"></i> Nuevo Material
-                    </button>
-                </div>
+            <div class="col-md-3"><input type="text" class="form-control" id="buscarMaterial" placeholder="Buscar material..."></div>
+            <div class="col-md-2">
+                <select class="form-select" id="filtroTipo">
+                    <option value="">Todos los tipos</option>
+                    <option value="MADERA">Madera</option><option value="CARTÓN">Cartón</option><option value="INSUMOS">Insumos</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select" id="filtroSubtipoVista">
+                    <option value="">Todos los subtipos</option>
+                    <optgroup label="Madera"><option>Larga</option><option>Corta</option><option>Polín</option><option>Tabla</option><option>Tratada</option><option>Duela</option><option>Reciclada</option></optgroup>
+                    <optgroup label="Cartón"><option>Lámina</option><option>Puntura</option><option>Pegamento</option><option>Pintura</option></optgroup>
+                    <optgroup label="Insumos"><option>Clavos</option><option>Pijas</option><option>Tornillos</option><option>Arandelas</option><option>Tuercas</option><option>Herrajes</option></optgroup>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select" id="filtroAlerta">
+                    <option value="">Todas las alertas</option>
+                    <option value="ROJO">🔴 Rojo (Crítico)</option>
+                    <option value="AMARILLO">🟡 Amarillo</option>
+                    <option value="VERDE">🟢 Verde (Óptimo)</option>
+                </select>
+            </div>
+            <div class="col-md-3 text-end d-flex gap-2 justify-content-end">
+                <button class="btn btn-secondary" onclick="limpiarFiltros()"><i class="bi bi-x-circle"></i> Limpiar</button>
+                <button class="btn btn-success" onclick="exportarExcel()"><i class="bi bi-file-earmark-excel"></i> Exportar</button>
             </div>
         </div>
+    </div>
 
-        <!-- Resumen de Alertas -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card border-danger">
-                    <div class="card-body text-center">
-                        <i class="bi bi-exclamation-circle-fill text-danger" style="font-size: 2.5rem;"></i>
-                        <h3 class="mt-2">5</h3>
-                        <p class="mb-0">Materiales en <strong class="text-danger">ROJO</strong></p>
-                        <small class="text-muted">Stock crítico - Pedir urgente</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-warning">
-                    <div class="card-body text-center">
-                        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2.5rem;"></i>
-                        <h3 class="mt-2">12</h3>
-                        <p class="mb-0">Materiales en <strong class="text-warning">AMARILLO</strong></p>
-                        <small class="text-muted">Stock bajo - Atención</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-success">
-                    <div class="card-body text-center">
-                        <i class="bi bi-check-circle-fill text-success" style="font-size: 2.5rem;"></i>
-                        <h3 class="mt-2">28</h3>
-                        <p class="mb-0">Materiales en <strong class="text-success">VERDE</strong></p>
-                        <small class="text-muted">Stock óptimo</small>
-                    </div>
-                </div>
+    <!-- Tabla -->
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr><th>Alerta</th><th>Código</th><th>Material</th><th>Tipo</th><th>Subtipo</th><th>Stock Total</th><th>Unidad</th><th>Precio Unit.</th><th>Estado</th><th class="text-center">Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-danger">
+                            <td><i class="bi bi-circle-fill text-danger"></i></td><td><strong>MAT-001</strong></td><td>Clavos 3"</td>
+                            <td><span class="badge bg-secondary">INSUMOS</span></td><td><span class="badge bg-light text-dark border">Clavos</span></td>
+                            <td><strong>45 kg</strong> <small class="text-muted">(Mín:100)</small></td><td>kg</td><td>$35.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-001')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-001')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr class="table-danger">
+                            <td><i class="bi bi-circle-fill text-danger"></i></td><td><strong>MAT-002</strong></td><td>Madera Pino 2x4</td>
+                            <td><span class="badge bg-warning">MADERA</span></td><td><span class="badge bg-light text-dark border">Larga</span></td>
+                            <td><strong>320 pies</strong> <small class="text-muted">(Mín:500)</small></td><td>pies</td><td>$13.70</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-002')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-002')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr class="table-danger">
+                            <td><i class="bi bi-circle-fill text-danger"></i></td><td><strong>MAT-004</strong></td><td>Cartón RSC</td>
+                            <td><span class="badge bg-info">CARTÓN</span></td><td><span class="badge bg-light text-dark border">Lámina</span></td>
+                            <td><strong>120 m²</strong> <small class="text-muted">(Mín:300)</small></td><td>m²</td><td>$85.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-004')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-004')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr class="table-warning">
+                            <td><i class="bi bi-circle-fill text-warning"></i></td><td><strong>MAT-006</strong></td><td>Madera Encino 3x6</td>
+                            <td><span class="badge bg-warning">MADERA</span></td><td><span class="badge bg-light text-dark border">Larga</span></td>
+                            <td><strong>620 pies</strong> <small class="text-muted">(Ópt:1000)</small></td><td>pies</td><td>$18.50</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-006')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-006')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr class="table-warning">
+                            <td><i class="bi bi-circle-fill text-warning"></i></td><td><strong>MAT-007</strong></td><td>Cartón Doble Pared</td>
+                            <td><span class="badge bg-info">CARTÓN</span></td><td><span class="badge bg-light text-dark border">Lámina</span></td>
+                            <td><strong>480 m²</strong> <small class="text-muted">(Ópt:800)</small></td><td>m²</td><td>$125.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-007')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-007')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-circle-fill text-success"></i></td><td><strong>MAT-009</strong></td><td>Madera Pino 4x6 Tratamiento Térmico</td>
+                            <td><span class="badge bg-warning">MADERA</span></td><td><span class="badge bg-light text-dark border">Tratada</span></td>
+                            <td><strong>1,850 pies</strong></td><td>pies</td><td>$22.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-009')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-009')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-circle-fill text-success"></i></td><td><strong>MAT-013</strong></td><td>Polín 4x4 Pino</td>
+                            <td><span class="badge bg-warning">MADERA</span></td><td><span class="badge bg-light text-dark border">Polín</span></td>
+                            <td><strong>420 piezas</strong></td><td>piezas</td><td>$65.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-013')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-013')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-circle-fill text-success"></i></td><td><strong>MAT-030</strong></td><td>Adhesivo Almidón</td>
+                            <td><span class="badge bg-info">CARTÓN</span></td><td><span class="badge bg-light text-dark border">Pegamento</span></td>
+                            <td><strong>380 kg</strong></td><td>kg</td><td>$35.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-030')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-030')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-circle-fill text-success"></i></td><td><strong>MAT-033</strong></td><td>Pintura Negra Base Agua</td>
+                            <td><span class="badge bg-info">CARTÓN</span></td><td><span class="badge bg-light text-dark border">Pintura</span></td>
+                            <td><strong>185 litros</strong></td><td>litros</td><td>$85.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-033')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-033')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-circle-fill text-success"></i></td><td><strong>MAT-046</strong></td><td>Pija Auto Perforante 1"</td>
+                            <td><span class="badge bg-secondary">INSUMOS</span></td><td><span class="badge bg-light text-dark border">Pijas</span></td>
+                            <td><strong>95 kg</strong></td><td>kg</td><td>$55.00</td>
+                            <td><span class="badge bg-success">Activo</span></td>
+                            <td class="text-center"><button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-046')"><i class="bi bi-eye"></i></button> <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-046')"><i class="bi bi-pencil"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <!-- Sección: Niveles de Alerta por Base -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="bi bi-building"></i> Niveles de Alerta por Base</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-sm table-hover">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Base</th>
-                                        <th class="text-center"><i class="bi bi-circle-fill text-danger"></i> Críticos</th>
-                                        <th class="text-center"><i class="bi bi-circle-fill text-warning"></i> Precaución</th>
-                                        <th class="text-center"><i class="bi bi-circle-fill text-success"></i> Óptimos</th>
-                                        <th class="text-center">Total</th>
-                                        <th class="text-center">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>TULA</strong></td>
-                                        <td class="text-center"><span class="badge bg-danger">2</span></td>
-                                        <td class="text-center"><span class="badge bg-warning">5</span></td>
-                                        <td class="text-center"><span class="badge bg-success">12</span></td>
-                                        <td class="text-center">19</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-info" onclick="verAlertasBase('TULA')">
-                                                <i class="bi bi-eye"></i> Ver
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>WEG</strong></td>
-                                        <td class="text-center"><span class="badge bg-danger">1</span></td>
-                                        <td class="text-center"><span class="badge bg-warning">3</span></td>
-                                        <td class="text-center"><span class="badge bg-success">10</span></td>
-                                        <td class="text-center">14</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-info" onclick="verAlertasBase('WEG')">
-                                                <i class="bi bi-eye"></i> Ver
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>SM</strong></td>
-                                        <td class="text-center"><span class="badge bg-danger">1</span></td>
-                                        <td class="text-center"><span class="badge bg-warning">2</span></td>
-                                        <td class="text-center"><span class="badge bg-success">8</span></td>
-                                        <td class="text-center">11</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-info" onclick="verAlertasBase('SM')">
-                                                <i class="bi bi-eye"></i> Ver
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>ATOTO</strong></td>
-                                        <td class="text-center"><span class="badge bg-danger">1</span></td>
-                                        <td class="text-center"><span class="badge bg-warning">2</span></td>
-                                        <td class="text-center"><span class="badge bg-success">5</span></td>
-                                        <td class="text-center">8</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-info" onclick="verAlertasBase('ATOTO')">
-                                                <i class="bi bi-eye"></i> Ver
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="table-secondary">
-                                        <td><strong>TOTAL GENERAL</strong></td>
-                                        <td class="text-center"><strong>5</strong></td>
-                                        <td class="text-center"><strong>12</strong></td>
-                                        <td class="text-center"><strong>28</strong></td>
-                                        <td class="text-center"><strong>45</strong></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="card-footer bg-white d-flex justify-content-between">
+            <small class="text-muted">Mostrando 10 de 61 resultados</small>
+            <nav><ul class="pagination pagination-sm mb-0"><li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li><li class="page-item active"><a class="page-link" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">Siguiente</a></li></ul></nav>
         </div>
+    </div>
+</div>
 
-        <!-- Filtros -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="filter-section">
+<!-- Modal Nuevo Material — con campo Subtipo -->
+<div class="modal fade" id="modalNuevoMaterial" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Nuevo Material</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formNuevoMaterial">
                     <div class="row">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="buscarMaterial" placeholder="Buscar material...">
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-select" id="filtroTipo">
-                                <option value="">Todos los tipos</option>
+                        <div class="col-md-6 mb-3"><label class="form-label">Código *</label><input type="text" class="form-control" id="codigoMaterial" required placeholder="MAT-XXX"></div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tipo de Material *</label>
+                            <select class="form-select" id="tipoMaterial" required onchange="actualizarSubtipos()">
+                                <option value="">Seleccione...</option>
                                 <option value="MADERA">Madera</option>
                                 <option value="CARTÓN">Cartón</option>
-                                <option value="INSUMOS">Insumos</option>
+                                <option value="INSUMOS">Insumos / Herrajes</option>
                             </select>
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-select" id="filtroAlerta">
-                                <option value="">Todas las alertas</option>
-                                <option value="ROJO">🔴 Rojo (Crítico)</option>
-                                <option value="AMARILLO">🟡 Amarillo (Bajo)</option>
-                                <option value="VERDE">🟢 Verde (Óptimo)</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <select class="form-select" id="filtroEstado">
-                                <option value="">Todos</option>
-                                <option value="Activo">Activos</option>
-                                <option value="Inactivo">Inactivos</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 text-end">
-                            <button class="btn btn-secondary" onclick="limpiarFiltros()">
-                                <i class="bi bi-x-circle"></i> Limpiar
-                            </button>
-                            <button class="btn btn-success" onclick="exportarExcel()">
-                                <i class="bi bi-file-earmark-excel"></i> Exportar
-                            </button>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-8 mb-3"><label class="form-label">Nombre del Material *</label><input type="text" class="form-control" id="nombreMaterial" required placeholder="Ej: Madera Pino 2x4, Clavos 3 pulgadas"></div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Subtipo <span class="text-muted">(para drill-down)</span></label>
+                            <select class="form-select" id="subtipoMaterial">
+                                <option value="">Seleccione tipo primero</option>
+                            </select>
+                            <small class="text-muted">Clasifica el material para el desglose de inventario</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Unidad de Medida *</label>
+                            <select class="form-select" id="unidadMedida" required>
+                                <option value="">Seleccione...</option>
+                                <option value="pies">Pies</option><option value="m²">m²</option>
+                                <option value="kg">Kilogramos</option><option value="piezas">Piezas</option>
+                                <option value="litros">Litros</option><option value="rollos">Rollos</option>
+                                <option value="lote">Lote</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3"><label class="form-label">Precio Unitario *</label><div class="input-group"><span class="input-group-text">$</span><input type="number" step="0.01" class="form-control" id="precioUnitario" required></div></div>
+                    </div>
+                    <hr>
+                    <h6>Niveles de Stock</h6>
+                    <div class="row">
+                        <div class="col-md-4 mb-3"><label class="form-label">Stock Mínimo (🔴) *</label><input type="number" class="form-control" id="stockMinimo" required><small class="text-muted">Alerta crítica</small></div>
+                        <div class="col-md-4 mb-3"><label class="form-label">Stock Óptimo (🟡) *</label><input type="number" class="form-control" id="stockOptimo" required><small class="text-muted">Nivel de atención</small></div>
+                        <div class="col-md-4 mb-3"><label class="form-label">Estado</label><select class="form-select" id="estadoMaterial"><option value="Activo" selected>Activo</option><option value="Inactivo">Inactivo</option></select></div>
+                    </div>
+                </form>
             </div>
-        </div>
-
-        <!-- Tabs por Tipo de Material -->
-        <div class="row">
-            <div class="col-12">
-
-                <div class="tab-content" id="tiposMaterialTabContent">
-                    <!-- Tab Todos -->
-                    <div class="tab-pane fade show active" id="todos">
-                        <div class="card">
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-hover mb-0">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Alerta</th>
-                                                <th>Código</th>
-                                                <th>Material</th>
-                                                <th>Tipo</th>
-                                                <th>Stock Total</th>
-                                                <th>Unidad</th>
-                                                <th>Precio Unit.</th>
-                                                <th>Estado</th>
-                                                <th class="text-center">Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- MATERIALES EN ROJO -->
-                                            <tr class="table-danger">
-                                                <td><i class="bi bi-circle-fill text-danger"></i></td>
-                                                <td><strong>MAT-001</strong></td>
-                                                <td>Clavos 3"</td>
-                                                <td><span class="badge bg-secondary">INSUMOS</span></td>
-                                                <td><strong>45 kg</strong> <small class="text-muted">(Mín: 100)</small></td>
-                                                <td>kg</td>
-                                                <td>$35.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-001')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-001')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="table-danger">
-                                                <td><i class="bi bi-circle-fill text-danger"></i></td>
-                                                <td><strong>MAT-002</strong></td>
-                                                <td>Madera Pino 2x4</td>
-                                                <td><span class="badge bg-warning">MADERA</span></td>
-                                                <td><strong>320 pies</strong> <small class="text-muted">(Mín: 500)</small></td>
-                                                <td>pies</td>
-                                                <td>$13.70</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-002')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-002')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="table-danger">
-                                                <td><i class="bi bi-circle-fill text-danger"></i></td>
-                                                <td><strong>MAT-003</strong></td>
-                                                <td>Arandelas M8</td>
-                                                <td><span class="badge bg-secondary">INSUMOS</span></td>
-                                                <td><strong>15 kg</strong> <small class="text-muted">(Mín: 50)</small></td>
-                                                <td>kg</td>
-                                                <td>$42.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-003')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-003')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="table-danger">
-                                                <td><i class="bi bi-circle-fill text-danger"></i></td>
-                                                <td><strong>MAT-004</strong></td>
-                                                <td>Cartón RSC</td>
-                                                <td><span class="badge bg-info">CARTÓN</span></td>
-                                                <td><strong>120 m²</strong> <small class="text-muted">(Mín: 300)</small></td>
-                                                <td>m²</td>
-                                                <td>$85.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-004')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-004')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="table-danger">
-                                                <td><i class="bi bi-circle-fill text-danger"></i></td>
-                                                <td><strong>MAT-005</strong></td>
-                                                <td>Tuercas M10</td>
-                                                <td><span class="badge bg-secondary">INSUMOS</span></td>
-                                                <td><strong>8 kg</strong> <small class="text-muted">(Mín: 30)</small></td>
-                                                <td>kg</td>
-                                                <td>$48.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-005')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-005')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                            <!-- MATERIALES EN AMARILLO -->
-                                            <tr class="table-warning">
-                                                <td><i class="bi bi-circle-fill text-warning"></i></td>
-                                                <td><strong>MAT-006</strong></td>
-                                                <td>Madera Encino 3x6</td>
-                                                <td><span class="badge bg-warning">MADERA</span></td>
-                                                <td><strong>620 pies</strong> <small class="text-muted">(Ópt: 1000)</small></td>
-                                                <td>pies</td>
-                                                <td>$18.50</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-006')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-006')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="table-warning">
-                                                <td><i class="bi bi-circle-fill text-warning"></i></td>
-                                                <td><strong>MAT-007</strong></td>
-                                                <td>Cartón Doble Pared</td>
-                                                <td><span class="badge bg-info">CARTÓN</span></td>
-                                                <td><strong>480 m²</strong> <small class="text-muted">(Ópt: 800)</small></td>
-                                                <td>m²</td>
-                                                <td>$125.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-007')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-007')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr class="table-warning">
-                                                <td><i class="bi bi-circle-fill text-warning"></i></td>
-                                                <td><strong>MAT-008</strong></td>
-                                                <td>Clavos 2.5"</td>
-                                                <td><span class="badge bg-secondary">INSUMOS</span></td>
-                                                <td><strong>85 kg</strong> <small class="text-muted">(Ópt: 150)</small></td>
-                                                <td>kg</td>
-                                                <td>$32.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-008')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-008')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                            <!-- MATERIALES EN VERDE -->
-                                            <tr>
-                                                <td><i class="bi bi-circle-fill text-success"></i></td>
-                                                <td><strong>MAT-009</strong></td>
-                                                <td>Madera Pino 4x6 Tratamiento Térmico</td>
-                                                <td><span class="badge bg-warning">MADERA</span></td>
-                                                <td><strong>1,850 pies</strong> <small class="text-muted">(Ópt: 1500)</small></td>
-                                                <td>pies</td>
-                                                <td>$22.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-009')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-009')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="bi bi-circle-fill text-success"></i></td>
-                                                <td><strong>MAT-010</strong></td>
-                                                <td>Cartón Troquelado</td>
-                                                <td><span class="badge bg-info">CARTÓN</span></td>
-                                                <td><strong>950 m²</strong> <small class="text-muted">(Ópt: 700)</small></td>
-                                                <td>m²</td>
-                                                <td>$95.00</td>
-                                                <td><span class="badge bg-success">Activo</span></td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-info" onclick="verDetalleMaterial('MAT-010')">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-warning" onclick="editarMaterial('MAT-010')">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="card-footer bg-white">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Mostrando 10 de 10 resultados</small>
-                            <nav>
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarMaterial()"><i class="bi bi-save"></i> Guardar Material</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal Nuevo Material -->
-    <div class="modal fade" id="modalNuevoMaterial" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Nuevo Material</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formNuevoMaterial">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Código *</label>
-                                <input type="text" class="form-control" id="codigoMaterial" required placeholder="MAT-XXX">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Tipo de Material *</label>
-                                <select class="form-select" id="tipoMaterial" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="MADERA">Madera</option>
-                                    <option value="CARTÓN">Cartón</option>
-                                    <option value="INSUMOS">Insumos</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del Material *</label>
-                            <input type="text" class="form-control" id="nombreMaterial" required 
-                                   placeholder="Ej: Madera Pino 2x4, Clavos 3 pulgadas">
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Unidad de Medida *</label>
-                                <select class="form-select" id="unidadMedida" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="pies">Pies</option>
-                                    <option value="m²">m²</option>
-                                    <option value="kg">Kilogramos</option>
-                                    <option value="piezas">Piezas</option>
-                                    <option value="litros">Litros</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Precio Unitario *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input type="number" step="0.01" class="form-control" id="precioUnitario" required>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <h6>Niveles de Stock</h6>
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Stock Mínimo (🔴 Rojo) *</label>
-                                <input type="number" class="form-control" id="stockMinimo" required>
-                                <small class="text-muted">Alerta crítica</small>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Stock Óptimo (🟡 Amarillo) *</label>
-                                <input type="number" class="form-control" id="stockOptimo" required>
-                                <small class="text-muted">Nivel de atención</small>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Estado</label>
-                                <select class="form-select" id="estadoMaterial">
-                                    <option value="Activo" selected>Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="guardarMaterial()">
-                        <i class="bi bi-save"></i> Guardar Material
-                    </button>
-                </div>
-            </div>
+<!-- Modal Detalle Material -->
+<div class="modal fade" id="modalDetalleMaterial" tabindex="-1">
+    <div class="modal-dialog modal-lg"><div class="modal-content">
+        <div class="modal-header bg-info text-white">
+            <h5 class="modal-title"><i class="bi bi-box-seam"></i> Detalle: <span id="nombreMaterialDetalle"></span></h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-    </div>
-
-    <!-- Modal Alertas por Base -->
-    <div class="modal fade" id="modalAlertasBase" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-building"></i> Alertas de Stock - Base: <span id="nombreBaseAlerta"></span></h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <h6 class="text-danger"><i class="bi bi-circle-fill text-danger"></i> Materiales Críticos</h6>
-                    <table class="table table-sm table-hover mb-4">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Material</th>
-                                <th>Stock Actual</th>
-                                <th>Mínimo</th>
-                                <th>Tipo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="table-danger">
-                                <td>Clavos 3"</td>
-                                <td>15 kg</td>
-                                <td>30 kg</td>
-                                <td><span class="badge bg-secondary">INSUMOS</span></td>
-                            </tr>
-                            <tr class="table-danger">
-                                <td>Madera Pino 2x4</td>
-                                <td>120 pies</td>
-                                <td>200 pies</td>
-                                <td><span class="badge bg-warning">MADERA</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <h6 class="text-warning"><i class="bi bi-circle-fill text-warning"></i> Materiales en Precaución</h6>
-                    <table class="table table-sm table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Material</th>
-                                <th>Stock Actual</th>
-                                <th>Óptimo</th>
-                                <th>Tipo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="table-warning">
-                                <td>Madera Encino 3x6</td>
-                                <td>280 pies</td>
-                                <td>400 pies</td>
-                                <td><span class="badge bg-warning">MADERA</span></td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>Cartón RSC</td>
-                                <td>85 m²</td>
-                                <td>150 m²</td>
-                                <td><span class="badge bg-info">CARTÓN</span></td>
-                            </tr>
-                        </tbody>
+        <div class="modal-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h6 class="text-muted mb-3">Información General</h6>
+                    <table class="table table-sm">
+                        <tr><td class="text-muted">Código:</td><td><strong id="detalleCodigo"></strong></td></tr>
+                        <tr><td class="text-muted">Tipo / Subtipo:</td><td><span id="detalleTipo"></span></td></tr>
+                        <tr><td class="text-muted">Unidad:</td><td id="detalleUnidad"></td></tr>
+                        <tr><td class="text-muted">Precio Unitario:</td><td><strong id="detallePrecio"></strong></td></tr>
+                        <tr><td class="text-muted">Estado:</td><td><span id="detalleEstado"></span></td></tr>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Detalle Material -->
-    <div class="modal fade" id="modalDetalleMaterial" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title">
-                        <i class="bi bi-box-seam"></i> Detalle del Material: <span id="nombreMaterialDetalle"></span>
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Información General -->
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h6 class="text-muted mb-3">Información General</h6>
-                            <table class="table table-sm">
-                                <tr>
-                                    <td class="text-muted">Código:</td>
-                                    <td><strong id="detalleCodigo"></strong></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Tipo:</td>
-                                    <td><span id="detalleTipo"></span></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Unidad:</td>
-                                    <td id="detalleUnidad"></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Precio Unitario:</td>
-                                    <td><strong id="detallePrecio"></strong></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted">Estado:</td>
-                                    <td><span id="detalleEstado"></span></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h6 class="text-muted mb-3">Niveles de Stock</h6>
-                            <div class="card" id="cardAlertaNivel">
-                                <div class="card-body text-center">
-                                    <i id="iconoAlerta" class="bi" style="font-size: 2rem;"></i>
-                                    <h4 class="mt-2" id="detalleStockActual"></h4>
-                                    <p class="mb-1">Stock Actual</p>
-                                    <small class="text-muted">
-                                        Mínimo: <span id="detalleStockMin"></span> |
-                                        Óptimo: <span id="detalleStockOpt"></span>
-                                    </small>
-                                    <div class="progress mt-2" style="height: 8px;">
-                                        <div id="barraProgreso" class="progress-bar" role="progressbar"></div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-md-6">
+                    <h6 class="text-muted mb-3">Niveles de Stock</h6>
+                    <div class="card" id="cardAlertaNivel">
+                        <div class="card-body text-center">
+                            <i id="iconoAlerta" class="bi" style="font-size:2rem;"></i>
+                            <h4 class="mt-2" id="detalleStockActual"></h4>
+                            <p class="mb-1">Stock Actual</p>
+                            <small class="text-muted">Mínimo: <span id="detalleStockMin"></span> | Óptimo: <span id="detalleStockOpt"></span></small>
+                            <div class="progress mt-2" style="height:8px;"><div id="barraProgreso" class="progress-bar" role="progressbar"></div></div>
                         </div>
                     </div>
-
-                    <!-- Stock por Base -->
-                    <h6 class="text-muted mb-3"><i class="bi bi-building"></i> Distribución por Base</h6>
-                    <div class="table-responsive mb-4">
-                        <table class="table table-sm table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Base</th>
-                                    <th class="text-center">Stock</th>
-                                    <th class="text-center">% del Total</th>
-                                    <th class="text-end">Valor</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaStockBases">
-                                <!-- Se llena dinámicamente -->
-                            </tbody>
-                            <tfoot class="table-secondary">
-                                <tr>
-                                    <td><strong>TOTAL</strong></td>
-                                    <td class="text-center"><strong id="totalStockBases"></strong></td>
-                                    <td class="text-center"><strong>100%</strong></td>
-                                    <td class="text-end"><strong id="totalValorBases"></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <!-- Valor Total -->
-                    <div class="alert alert-info">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-currency-dollar"></i> Valor Total en Inventario:</span>
-                            <strong class="fs-5" id="detalleValorTotal"></strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
+            <h6 class="text-muted mb-3"><i class="bi bi-building"></i> Distribución por Base</h6>
+            <div class="table-responsive mb-4">
+                <table class="table table-sm table-hover">
+                    <thead class="table-light"><tr><th>Base</th><th class="text-center">Stock</th><th class="text-center">%</th><th class="text-end">Valor</th></tr></thead>
+                    <tbody id="tablaStockBases"></tbody>
+                    <tfoot class="table-secondary"><tr><td><strong>TOTAL</strong></td><td class="text-center"><strong id="totalStockBases"></strong></td><td class="text-center"><strong>100%</strong></td><td class="text-end"><strong id="totalValorBases"></strong></td></tr></tfoot>
+                </table>
+            </div>
+            <div class="alert alert-info d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-currency-dollar"></i> Valor Total en Inventario:</span>
+                <strong class="fs-5" id="detalleValorTotal"></strong>
+            </div>
         </div>
-    </div>
+        <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button></div>
+    </div></div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/materiales.js"></script>
-    <script>
-        function verAlertasBase(base) {
-            document.getElementById('nombreBaseAlerta').textContent = base;
-            const modal = new bootstrap.Modal(document.getElementById('modalAlertasBase'));
-            modal.show();
-        }
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/materiales.js"></script>
+<script>
+// Subtipos por tipo de material
+const subtiposPorTipo = {
+    MADERA:  ['Larga','Corta','Polín','Tabla','Tapa','Duela','Tratada','Reciclada','Accesorio','Otros'],
+    'CARTÓN':['Lámina','Puntura','Pegamento','Pintura','Otros'],
+    INSUMOS: ['Clavos','Pijas','Tornillos','Arandelas','Tuercas','Herrajes','Otros']
+};
+
+function actualizarSubtipos() {
+    const tipo = document.getElementById('tipoMaterial').value;
+    const sel  = document.getElementById('subtipoMaterial');
+    sel.innerHTML = '<option value="">Seleccione subtipo...</option>';
+    (subtiposPorTipo[tipo] || []).forEach(s => {
+        sel.innerHTML += `<option value="${s}">${s}</option>`;
+    });
+}
+</script>
 </body>
 </html>

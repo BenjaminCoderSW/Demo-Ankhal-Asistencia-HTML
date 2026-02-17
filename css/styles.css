@@ -29,18 +29,9 @@ body {
 }
 
 /* Badges de Estado */
-.badge-nivel-rojo {
-    background-color: #dc3545;
-}
-
-.badge-nivel-amarillo {
-    background-color: #ffc107;
-    color: #000;
-}
-
-.badge-nivel-verde {
-    background-color: #28a745;
-}
+.badge-nivel-rojo { background-color: #dc3545; }
+.badge-nivel-amarillo { background-color: #ffc107; color: #000; }
+.badge-nivel-verde { background-color: #28a745; }
 
 /* Tablas */
 .table-hover tbody tr:hover {
@@ -48,33 +39,18 @@ body {
 }
 
 /* Botones de Acción */
-.btn-action {
-    margin: 2px;
-}
+.btn-action { margin: 2px; }
 
 /* Modal Overlay */
-.modal-backdrop.show {
-    opacity: 0.7;
-}
+.modal-backdrop.show { opacity: 0.7; }
 
 /* Alertas Personalizadas */
-.alert-stock-rojo {
-    border-left: 4px solid #dc3545;
-}
-
-.alert-stock-amarillo {
-    border-left: 4px solid #ffc107;
-}
-
-.alert-stock-verde {
-    border-left: 4px solid #28a745;
-}
+.alert-stock-rojo    { border-left: 4px solid #dc3545; }
+.alert-stock-amarillo{ border-left: 4px solid #ffc107; }
+.alert-stock-verde   { border-left: 4px solid #28a745; }
 
 /* Icons de Estado */
-.status-icon {
-    font-size: 1.2rem;
-    margin-right: 8px;
-}
+.status-icon { font-size: 1.2rem; margin-right: 8px; }
 
 /* Filtros */
 .filter-section {
@@ -87,72 +63,205 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .navbar-brand {
-        font-size: 1rem;
-    }
-    
-    .card-body {
-        padding: 15px;
-    }
-    
-    h2 {
-        font-size: 1.5rem;
-    }
+    .navbar-brand { font-size: 1rem; }
+    .card-body { padding: 15px; }
+    h2 { font-size: 1.5rem; }
 }
 
 /* Loading Spinner */
 .spinner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
     background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
     z-index: 9999;
 }
 
 /* Form Validation */
-.was-validated .form-control:valid {
-    border-color: #28a745;
-}
-
-.was-validated .form-control:invalid {
-    border-color: #dc3545;
-}
+.was-validated .form-control:valid   { border-color: #28a745; }
+.was-validated .form-control:invalid { border-color: #dc3545; }
 
 /* Sticky Header */
-.sticky-top {
-    position: sticky;
-    top: 0;
-    z-index: 1020;
-}
+.sticky-top { position: sticky; top: 0; z-index: 1020; }
 
 /* Progress Bar Custom */
-.progress {
-    border-radius: 10px;
-}
-
-.progress-bar {
-    border-radius: 10px;
-}
+.progress { border-radius: 10px; }
+.progress-bar { border-radius: 10px; }
 
 /* Links de Navegación */
-a {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 /* Footer */
 footer {
-    margin-top: 50px;
-    padding: 20px 0;
-    background-color: #343a40;
-    color: white;
-    text-align: center;
+    margin-top: 50px; padding: 20px 0;
+    background-color: #343a40; color: white; text-align: center;
+}
+
+/* =====================================================
+   DRILL-DOWN INVENTORY STYLES
+   ===================================================== */
+
+/* Contenedor principal del árbol de valor */
+.valor-tree {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Fila de nivel 1 — total general */
+.tree-level-0 {
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    color: #fff;
+    padding: 14px 18px;
+    cursor: default;
+    user-select: none;
+}
+
+.tree-level-0 .tree-label { font-size: 1rem; font-weight: 700; letter-spacing: .4px; }
+.tree-level-0 .tree-value { font-size: 1.15rem; font-weight: 800; }
+
+/* Fila de nivel 1 — categoría principal (Productos / Materiales) */
+.tree-level-1 {
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 11px 18px 11px 28px;
+    cursor: pointer;
+    transition: background .2s;
+    user-select: none;
+}
+
+.tree-level-1:hover { background: #f0f4ff; }
+.tree-level-1.open  { background: #e8eeff; }
+.tree-level-1 .tree-label { font-size: .92rem; font-weight: 600; }
+.tree-level-1 .tree-value { font-size: .95rem; font-weight: 700; color: #1a237e; }
+.tree-level-1 .tree-pct   { font-size: .78rem; color: #6c757d; }
+
+/* Contenedor colapsable de nivel 2 */
+.tree-children-1 { display: none; background: #f8f9ff; }
+.tree-children-1.open { display: block; }
+
+/* Fila de nivel 2 — subtipo (Madera, Cartón, Insumos / Base) */
+.tree-level-2 {
+    padding: 9px 18px 9px 46px;
+    border-bottom: 1px solid #edf0f7;
+    cursor: pointer;
+    transition: background .2s;
+    user-select: none;
+}
+
+.tree-level-2:hover { background: #e3e9ff; }
+.tree-level-2.open  { background: #dde5ff; }
+.tree-level-2 .tree-label { font-size: .87rem; font-weight: 600; }
+.tree-level-2 .tree-value { font-size: .87rem; font-weight: 700; color: #283593; }
+.tree-level-2 .tree-pct   { font-size: .75rem; color: #868e96; }
+
+/* Contenedor colapsable de nivel 3 */
+.tree-children-2 { display: none; background: #fff; }
+.tree-children-2.open { display: block; }
+
+/* Fila de nivel 3 — material individual */
+.tree-level-3 {
+    padding: 7px 18px 7px 68px;
+    border-bottom: 1px solid #f1f3f5;
+    transition: background .15s;
+}
+
+.tree-level-3:last-child { border-bottom: none; }
+.tree-level-3:hover { background: #f5f7ff; }
+.tree-level-3 .tree-label { font-size: .83rem; color: #495057; }
+.tree-level-3 .tree-value { font-size: .83rem; font-weight: 600; color: #343a40; }
+.tree-level-3 .tree-qty   { font-size: .75rem; color: #868e96; }
+
+/* Fila de nivel 3 — base individual (dentro de Productos) */
+.tree-level-3-base {
+    padding: 7px 18px 7px 68px;
+    border-bottom: 1px solid #f1f3f5;
+    transition: background .15s;
+}
+.tree-level-3-base:last-child { border-bottom: none; }
+.tree-level-3-base:hover { background: #f5f7ff; }
+.tree-level-3-base .tree-label { font-size: .83rem; color: #495057; }
+.tree-level-3-base .tree-value { font-size: .83rem; font-weight: 600; color: #343a40; }
+
+/* Chevron animado */
+.tree-chevron {
+    transition: transform .25s ease;
+    color: #9fa8c7;
+    font-size: .85rem;
+}
+
+.tree-level-1.open .tree-chevron,
+.tree-level-2.open .tree-chevron {
+    transform: rotate(90deg);
+    color: #1a237e;
+}
+
+/* Barra de proporción inline */
+.tree-bar-wrap {
+    flex: 0 0 80px;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.tree-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .4s ease;
+}
+
+/* Colores de categorías */
+.bar-productos  { background: #3949ab; }
+.bar-madera     { background: #ef6c00; }
+.bar-carton     { background: #00838f; }
+.bar-insumos    { background: #558b2f; }
+.bar-base       { background: #7b1fa2; }
+
+/* Iconos de categoría */
+.cat-icon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: .72rem; margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.cat-icon-productos { background: #e8eaf6; color: #3949ab; }
+.cat-icon-materiales{ background: #fce4ec; color: #c62828; }
+.cat-icon-madera    { background: #fff3e0; color: #ef6c00; }
+.cat-icon-carton    { background: #e0f7fa; color: #00838f; }
+.cat-icon-insumos   { background: #f1f8e9; color: #558b2f; }
+
+/* Tabla de detalle al expandir nivel 3 (materiales individuales) */
+.tree-detail-table {
+    margin: 0; font-size: .82rem;
+}
+
+.tree-detail-table th {
+    font-size: .76rem; color: #6c757d;
+    background: #f8f9fa; padding: 5px 10px;
+}
+
+.tree-detail-table td { padding: 5px 10px; vertical-align: middle; }
+
+/* Dashboard card de inventario ampliado */
+.inv-summary-card .category-row {
+    display: flex; align-items: center;
+    padding: 6px 0; border-bottom: 1px solid #f0f0f0;
+    font-size: .83rem;
+}
+
+.inv-summary-card .category-row:last-child { border-bottom: none; }
+.inv-summary-card .cat-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0; margin-right: 8px;
+}
+
+/* Tooltip de porcentaje */
+.pct-badge {
+    font-size: .7rem; padding: 1px 5px;
+    border-radius: 10px; background: #e9ecef; color: #495057;
+    margin-left: 6px;
 }

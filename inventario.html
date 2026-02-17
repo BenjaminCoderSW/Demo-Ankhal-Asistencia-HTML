@@ -9,26 +9,15 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Navbar (igual que otras páginas) -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
-                <i class="bi bi-box-seam"></i> ANKHAL - Sistema de Inventario
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand" href="index.html"><i class="bi bi-box-seam"></i> ANKHAL - Sistema de Inventario</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear-fill"></i> Configuración
-                        </a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-gear-fill"></i> Configuración</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="bases.html"><i class="bi bi-building"></i> Bases/Plantas</a></li>
                             <li><a class="dropdown-item" href="materiales.html"><i class="bi bi-box"></i> Materiales</a></li>
@@ -36,87 +25,143 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-arrow-repeat"></i> Operaciones
-                        </a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-arrow-repeat"></i> Operaciones</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="produccion.html"><i class="bi bi-gear"></i> Producción</a></li>
                             <li><a class="dropdown-item" href="entregas.html"><i class="bi bi-truck"></i> Entregas</a></li>
                             <li><a class="dropdown-item" href="movimientos.html"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="inventario.html">
-                            <i class="bi bi-clipboard-data"></i> Inventario
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="inventario.html"><i class="bi bi-clipboard-data"></i> Inventario</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container-fluid mt-4">
+        <!-- Header -->
         <div class="row">
             <div class="col-12">
-                <h2><i class="bi bi-clipboard-data"></i> Inventario - Control de Stock</h2>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="bi bi-clipboard-data"></i> Inventario — Control de Stock</h2>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="expandirTodo()">
+                            <i class="bi bi-arrows-expand"></i> Expandir todo
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="colapsarTodo()">
+                            <i class="bi bi-arrows-collapse"></i> Colapsar todo
+                        </button>
+                        <button class="btn btn-success btn-sm" onclick="exportarExcel()">
+                            <i class="bi bi-file-earmark-excel"></i> Exportar
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Resumen General -->
-        <div class="row mb-4 mt-3">
-            <div class="col-md-4">
-                <div class="card border-primary">
-                    <div class="card-body text-center">
+        <!-- Cards resumen general -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card border-primary text-center">
+                    <div class="card-body">
                         <h6 class="text-muted">VALOR TOTAL INVENTARIO</h6>
                         <h2 class="text-primary">$2,340,000</h2>
-                        <hr>
-                        <div class="row">
-                            <div class="col-6"><small>Materiales:</small><br><strong>$1,120,000</strong></div>
-                            <div class="col-6"><small>Productos:</small><br><strong>$1,220,000</strong></div>
+                        <div class="row mt-2">
+                            <div class="col-6 border-end"><small class="text-muted">Materiales</small><br><strong>$1,120,000</strong></div>
+                            <div class="col-6"><small class="text-muted">Productos</small><br><strong>$1,220,000</strong></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card border-warning">
-                    <div class="card-body text-center">
+            <div class="col-md-3">
+                <div class="card border-warning text-center">
+                    <div class="card-body">
                         <h6 class="text-muted">PRODUCTOS TERMINADOS</h6>
                         <h2 class="text-warning">8,450</h2>
-                        <p class="mb-0">Total en stock</p>
-                        <hr>
-                        <div class="text-start small">
-                            <strong>Por Tipo:</strong>
-                            <ul class="mb-1">
-                                <li>Tarimas: 4,580</li>
-                                <li>Cajas: 3,620</li>
-                                <li>Accesorios: 250</li>
-                            </ul>
-                            <div class="row">
-                                <div class="col-6"><small class="text-success">Buenas:</small><br><strong>8,120</strong></div>
-                                <div class="col-6"><small class="text-danger">Rechazo:</small><br><strong>330</strong></div>
+                        <small class="text-success">Buenas: 8,120</small> &nbsp;
+                        <small class="text-danger">Rechazo: 330</small>
+                        <div class="mt-2">
+                            <div class="progress" style="height:6px;">
+                                <div class="progress-bar bg-success" style="width:96.1%;"></div>
+                            </div>
+                            <small class="text-muted">96.1% calidad</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-info text-center">
+                    <div class="card-body">
+                        <h6 class="text-muted">MATERIALES EN STOCK</h6>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <small class="text-muted d-block"><i class="bi bi-tree" style="color:#ef6c00;"></i><br>Madera</small>
+                                <strong style="font-size:.85rem;">$280k</strong>
+                            </div>
+                            <div class="col-4 border-start border-end">
+                                <small class="text-muted d-block"><i class="bi bi-archive" style="color:#00838f;"></i><br>Cartón</small>
+                                <strong style="font-size:.85rem;">$650k</strong>
+                            </div>
+                            <div class="col-4">
+                                <small class="text-muted d-block"><i class="bi bi-tools" style="color:#558b2f;"></i><br>Insumos</small>
+                                <strong style="font-size:.85rem;">$190k</strong>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card border-info">
-                    <div class="card-body text-center">
+            <div class="col-md-3">
+                <div class="card border-danger text-center">
+                    <div class="card-body">
                         <h6 class="text-muted">MATERIALES CRÍTICOS</h6>
                         <h2 class="text-danger">5</h2>
-                        <p class="mb-0">requieren pedido urgente</p>
-                        <hr>
+                        <p class="mb-2">requieren pedido urgente</p>
                         <button class="btn btn-sm btn-outline-danger" onclick="verCriticos()">
                             <i class="bi bi-exclamation-triangle"></i> Ver Detalle
                         </button>
-                        <p class="small text-muted mt-2 mb-0">Alertas calculadas por base</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tabs de Navegación -->
+        <!-- Leyenda de uso -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="alert alert-light border d-flex align-items-center py-2" style="font-size:.83rem;">
+                    <i class="bi bi-info-circle text-primary me-2"></i>
+                    <span>
+                        <strong>Cómo usar:</strong> Haz clic en cualquier fila para expandir el detalle.
+                        <span class="ms-3"><i class="bi bi-circle-fill text-danger"></i> Crítico (stock ≤ mínimo)</span>
+                        <span class="ms-2"><i class="bi bi-circle-fill text-warning"></i> Precaución (stock &lt; óptimo)</span>
+                        <span class="ms-2"><i class="bi bi-circle-fill text-success"></i> Óptimo</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================
+             ÁRBOL DE VALOR — contenedor principal
+             ===================================================== -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-diagram-3"></i> Desglose de Valor de Inventario</h5>
+                        <small class="text-muted">Última actualización: <span id="lastUpdate">—</span></small>
+                    </div>
+                    <div class="card-body p-0" id="valorTreeContainer">
+                        <!-- Se renderiza dinámicamente con JS -->
+                        <div class="text-center py-4 text-muted">
+                            <div class="spinner-border spinner-border-sm me-2"></div>Cargando inventario...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================
+             TABS — vista por tipo (mantiene compatibilidad)
+             ===================================================== -->
         <ul class="nav nav-tabs mb-4" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabProductos" type="button">
@@ -130,355 +175,211 @@
             </li>
         </ul>
 
-        <!-- Contenido de Tabs -->
         <div class="tab-content">
-            <!-- TAB: PRODUCTOS -->
+            <!-- TAB PRODUCTOS -->
             <div class="tab-pane fade show active" id="tabProductos">
-                <!-- Cards informativas de Productos -->
                 <div class="row mb-4">
-                    <div class="col-md-3">
-                        <div class="card text-center border-primary">
-                            <div class="card-body">
-                                <h6 class="text-muted">TARIMAS</h6>
-                                <h4>4,580</h4>
-                                <small>Buenas: 4,420 | Rechazo: 160</small>
-                            </div>
+                    <div class="col-md-3"><div class="card text-center border-primary"><div class="card-body"><h6 class="text-muted">TARIMAS</h6><h4>4,580</h4><small>Buenas: 4,420 | Rechazo: 160</small></div></div></div>
+                    <div class="col-md-3"><div class="card text-center border-info"><div class="card-body"><h6 class="text-muted">CAJAS</h6><h4>3,620</h4><small>Buenas: 3,490 | Rechazo: 130</small></div></div></div>
+                    <div class="col-md-3"><div class="card text-center border-secondary"><div class="card-body"><h6 class="text-muted">ACCESORIOS</h6><h4>250</h4><small>Buenas: 210 | Rechazo: 40</small></div></div></div>
+                    <div class="col-md-3"><div class="card text-center border-success"><div class="card-body"><h6 class="text-muted">% CALIDAD</h6><h4>96.1%</h4><small>Producto bueno general</small></div></div></div>
+                </div>
+                <div class="filter-section mb-4">
+                    <div class="row">
+                        <div class="col-md-3"><label class="form-label small">Base/Planta</label>
+                            <select class="form-select" id="filtroBaseProductos">
+                                <option value="">Todas las bases (Consolidado)</option>
+                                <option>TULA</option><option>WEG</option><option>SM</option>
+                                <option>ATOTO</option><option>ARKAM</option><option>QRO</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-center border-info">
-                            <div class="card-body">
-                                <h6 class="text-muted">CAJAS</h6>
-                                <h4>3,620</h4>
-                                <small>Buenas: 3,490 | Rechazo: 130</small>
-                            </div>
+                        <div class="col-md-3"><label class="form-label small">Tipo</label>
+                            <select class="form-select"><option value="">Todos</option><option>TARIMA</option><option>CAJA</option><option>ACCESORIO</option></select>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-center border-secondary">
-                            <div class="card-body">
-                                <h6 class="text-muted">ACCESORIOS</h6>
-                                <h4>250</h4>
-                                <small>Buenas: 210 | Rechazo: 40</small>
-                            </div>
+                        <div class="col-md-3"><label class="form-label small">Buscar</label>
+                            <input type="text" class="form-control" placeholder="Código o nombre...">
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-center border-success">
-                            <div class="card-body">
-                                <h6 class="text-muted">% CALIDAD</h6>
-                                <h4>96.1%</h4>
-                                <small>Producto bueno general</small>
-                            </div>
+                        <div class="col-md-3 text-end d-flex align-items-end justify-content-end gap-2">
+                            <button class="btn btn-secondary">Limpiar</button>
+                            <button class="btn btn-success" onclick="exportarExcel()"><i class="bi bi-file-earmark-excel"></i> Exportar</button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Filtros Productos -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="filter-section">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="form-label small">Base/Planta</label>
-                                    <select class="form-select" id="filtroBaseProductos">
-                                        <option value="">Todas las bases (Consolidado)</option>
-                                        <option value="TULA">TULA</option>
-                                        <option value="WEG">WEG</option>
-                                        <option value="SM">SM</option>
-                                        <option value="ATOTO">ATOTO</option>
-                                        <option value="ARKAM">ARKAM</option>
-                                        <option value="QRO">QRO</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label small">Tipo de Producto</label>
-                                    <select class="form-select" id="filtroTipoProducto">
-                                        <option value="">Todos</option>
-                                        <option value="TARIMA">Tarimas</option>
-                                        <option value="CAJA">Cajas</option>
-                                        <option value="ACCESORIO">Accesorios</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label small">Buscar</label>
-                                    <input type="text" class="form-control" id="buscarProducto" placeholder="Código o nombre...">
-                                </div>
-                                <div class="col-md-3 text-end">
-                                    <label class="form-label small">&nbsp;</label><br>
-                                    <button class="btn btn-secondary">Limpiar</button>
-                                    <button class="btn btn-success">
-                                        <i class="bi bi-file-earmark-excel"></i> Exportar
-                                    </button>
-                                </div>
-                            </div>
+                <div class="card">
+                    <div class="card-header"><h5 class="mb-0"><i class="bi bi-grid-3x3-gap"></i> Productos Terminados por Base</h5></div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr><th>Producto</th><th>Tipo</th><th>TULA</th><th>WEG</th><th>Otras</th><th>Buenas</th><th>Rechazo</th><th>TOTAL</th><th>Valor</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Tarima 104</strong><br><small class="text-muted">Estándar 100x120</small></td>
+                                        <td><span class="badge bg-warning">TARIMA</span></td>
+                                        <td>320</td><td>280</td><td>150</td>
+                                        <td><span class="badge bg-success">730</span></td>
+                                        <td><span class="badge bg-danger">20</span></td>
+                                        <td><strong>750</strong></td><td>$210,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tarima 125</strong><br><small class="text-muted">Industrial 120x120</small></td>
+                                        <td><span class="badge bg-warning">TARIMA</span></td>
+                                        <td>180</td><td>220</td><td>90</td>
+                                        <td><span class="badge bg-success">475</span></td>
+                                        <td><span class="badge bg-danger">15</span></td>
+                                        <td><strong>490</strong></td><td>$166,600</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Caja RSC-01</strong><br><small class="text-muted">40x30x30cm</small></td>
+                                        <td><span class="badge bg-info">CAJA</span></td>
+                                        <td>1,200</td><td>850</td><td>450</td>
+                                        <td><span class="badge bg-success">2,450</span></td>
+                                        <td><span class="badge bg-danger">50</span></td>
+                                        <td><strong>2,500</strong></td><td>$112,500</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="table-secondary">
+                                    <tr><td colspan="8" class="text-end"><strong>TOTAL PRODUCTOS:</strong></td><td><strong>$1,220,000</strong></td></tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                </div>
-
-                <!-- Tabla de Productos Terminados -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0"><i class="bi bi-grid-3x3-gap"></i> Inventario de Productos Terminados</h5>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-hover mb-0">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Producto</th>
-                                                <th>Tipo</th>
-                                                <th>Base TULA</th>
-                                                <th>Base WEG</th>
-                                                <th>Otras Bases</th>
-                                                <th>Buenas</th>
-                                                <th>Rechazo</th>
-                                                <th>TOTAL</th>
-                                                <th>Valor</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><strong>Tarima 104</strong><br><small class="text-muted">Estándar 100x120</small></td>
-                                                <td><span class="badge bg-warning">TARIMA</span></td>
-                                                <td>320 pzas</td>
-                                                <td>280 pzas</td>
-                                                <td>150 pzas</td>
-                                                <td><span class="badge bg-success">730</span></td>
-                                                <td><span class="badge bg-danger">20</span></td>
-                                                <td><strong>750</strong></td>
-                                                <td>$210,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Tarima 125</strong><br><small class="text-muted">Industrial 120x120</small></td>
-                                                <td><span class="badge bg-warning">TARIMA</span></td>
-                                                <td>180 pzas</td>
-                                                <td>220 pzas</td>
-                                                <td>90 pzas</td>
-                                                <td><span class="badge bg-success">475</span></td>
-                                                <td><span class="badge bg-danger">15</span></td>
-                                                <td><strong>490</strong></td>
-                                                <td>$166,600</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Caja RSC-01</strong><br><small class="text-muted">40x30x30cm</small></td>
-                                                <td><span class="badge bg-info">CAJA</span></td>
-                                                <td>1,200 pzas</td>
-                                                <td>850 pzas</td>
-                                                <td>450 pzas</td>
-                                                <td><span class="badge bg-success">2,450</span></td>
-                                                <td><span class="badge bg-danger">50</span></td>
-                                                <td><strong>2,500</strong></td>
-                                                <td>$112,500</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="table-secondary">
-                                            <tr>
-                                                <td colspan="8" class="text-end"><strong>TOTAL PRODUCTOS:</strong></td>
-                                                <td><strong>$1,220,000</strong></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-white">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">Mostrando 3 de 85 resultados</small>
-                                    <nav>
-                                        <ul class="pagination pagination-sm mb-0">
-                                            <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card-footer bg-white"><small class="text-muted">Mostrando 3 de 85 resultados</small></div>
                 </div>
             </div>
 
-            <!-- TAB: MATERIALES -->
+            <!-- TAB MATERIALES -->
             <div class="tab-pane fade" id="tabMateriales">
-                <!-- Cards informativas de Materiales -->
                 <div class="row mb-4">
-                    <div class="col-md-3">
-                        <div class="card text-center border-warning">
-                            <div class="card-body">
-                                <h6 class="text-muted">MADERA</h6>
-                                <h4>2,790 pies</h4>
-                                <small>Valor: $280,000</small>
-                            </div>
+                    <div class="col-md-3"><div class="card text-center border-warning"><div class="card-body"><h6 class="text-muted">MADERA</h6><h4>2,790 pies</h4><small>Valor: $280,000</small></div></div></div>
+                    <div class="col-md-3"><div class="card text-center border-info"><div class="card-body"><h6 class="text-muted">CARTÓN</h6><h4>1,550 m²</h4><small>Valor: $650,000</small></div></div></div>
+                    <div class="col-md-3"><div class="card text-center border-secondary"><div class="card-body"><h6 class="text-muted">INSUMOS</h6><h4>153 kg</h4><small>Valor: $190,000</small></div></div></div>
+                    <div class="col-md-3"><div class="card text-center border-primary"><div class="card-body"><h6 class="text-muted">TOTAL MATERIALES</h6><h4>$1,120,000</h4><small>Todos los tipos</small></div></div></div>
+                </div>
+                <div class="filter-section mb-4">
+                    <div class="row">
+                        <div class="col-md-3"><label class="form-label small">Base</label>
+                            <select class="form-select"><option value="">Todas (Consolidado)</option><option>TULA</option><option>WEG</option><option>SM</option></select>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-center border-info">
-                            <div class="card-body">
-                                <h6 class="text-muted">CARTÓN</h6>
-                                <h4>1,550 m²</h4>
-                                <small>Valor: $650,000</small>
-                            </div>
+                        <div class="col-md-2"><label class="form-label small">Tipo</label>
+                            <select class="form-select"><option value="">Todos</option><option>MADERA</option><option>CARTÓN</option><option>INSUMOS</option></select>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-center border-secondary">
-                            <div class="card-body">
-                                <h6 class="text-muted">INSUMOS</h6>
-                                <h4>153 kg</h4>
-                                <small>Valor: $190,000</small>
-                            </div>
+                        <div class="col-md-2"><label class="form-label small">Subtipo</label>
+                            <select class="form-select" id="filtroSubtipo">
+                                <option value="">Todos</option>
+                                <optgroup label="Madera"><option>Larga</option><option>Corta</option><option>Polín</option><option>Tabla</option><option>Tratada</option></optgroup>
+                                <optgroup label="Cartón"><option>Lámina</option><option>Puntura</option><option>Pegamento</option><option>Pintura</option></optgroup>
+                                <optgroup label="Insumos"><option>Clavos</option><option>Pijas</option><option>Tornillos</option><option>Arandelas</option><option>Tuercas</option><option>Herrajes</option></optgroup>
+                            </select>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card text-center border-primary">
-                            <div class="card-body">
-                                <h6 class="text-muted">TOTAL MATERIALES</h6>
-                                <h4>$1,120,000</h4>
-                                <small>4,493 und</small>
-                            </div>
+                        <div class="col-md-3"><label class="form-label small">Buscar</label>
+                            <input type="text" class="form-control" placeholder="Código o nombre...">
+                        </div>
+                        <div class="col-md-2 text-end d-flex align-items-end justify-content-end">
+                            <button class="btn btn-success" onclick="exportarExcel()"><i class="bi bi-file-earmark-excel"></i> Exportar</button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Filtros Materiales -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="filter-section">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="form-label small">Base/Planta</label>
-                                    <select class="form-select" id="filtroBaseMateriales">
-                                        <option value="">Todas las bases (Consolidado)</option>
-                                        <option value="TULA">TULA</option>
-                                        <option value="WEG">WEG</option>
-                                        <option value="SM">SM</option>
-                                        <option value="ATOTO">ATOTO</option>
-                                        <option value="ARKAM">ARKAM</option>
-                                        <option value="QRO">QRO</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label small">Tipo de Material</label>
-                                    <select class="form-select" id="filtroTipoMaterial">
-                                        <option value="">Todos</option>
-                                        <option value="MADERA">Madera</option>
-                                        <option value="CARTÓN">Cartón</option>
-                                        <option value="INSUMOS">Insumos</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label small">Buscar</label>
-                                    <input type="text" class="form-control" id="buscarMaterial" placeholder="Código o nombre...">
-                                </div>
-                                <div class="col-md-3 text-end">
-                                    <label class="form-label small">&nbsp;</label><br>
-                                    <button class="btn btn-secondary">Limpiar</button>
-                                    <button class="btn btn-success">
-                                        <i class="bi bi-file-earmark-excel"></i> Exportar
-                                    </button>
-                                </div>
-                            </div>
+                <div class="card">
+                    <div class="card-header"><h5 class="mb-0"><i class="bi bi-box"></i> Materiales por Tipo / Subtipo</h5></div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr><th>Alerta</th><th>Código</th><th>Material</th><th>Tipo</th><th>Subtipo</th><th>TULA</th><th>WEG</th><th>SM</th><th>Otras</th><th>TOTAL</th><th>Valor</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-danger">
+                                        <td><i class="bi bi-circle-fill text-danger"></i></td>
+                                        <td><strong>MAT-001</strong></td><td>Clavos 3"</td>
+                                        <td><span class="badge bg-secondary">INSUMOS</span></td>
+                                        <td><span class="badge bg-light text-dark border">Clavos</span></td>
+                                        <td>15 kg</td><td>12 kg</td><td>8 kg</td><td>10 kg</td>
+                                        <td><strong>45 kg</strong></td><td>$1,575</td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td><i class="bi bi-circle-fill text-danger"></i></td>
+                                        <td><strong>MAT-002</strong></td><td>Madera Pino 2x4</td>
+                                        <td><span class="badge bg-warning">MADERA</span></td>
+                                        <td><span class="badge bg-light text-dark border">Larga</span></td>
+                                        <td>120 p</td><td>85 p</td><td>65 p</td><td>50 p</td>
+                                        <td><strong>320 pies</strong></td><td>$4,384</td>
+                                    </tr>
+                                    <tr class="table-warning">
+                                        <td><i class="bi bi-circle-fill text-warning"></i></td>
+                                        <td><strong>MAT-006</strong></td><td>Madera Encino 3x6</td>
+                                        <td><span class="badge bg-warning">MADERA</span></td>
+                                        <td><span class="badge bg-light text-dark border">Larga</span></td>
+                                        <td>280 p</td><td>180 p</td><td>90 p</td><td>70 p</td>
+                                        <td><strong>620 pies</strong></td><td>$11,470</td>
+                                    </tr>
+                                    <tr class="table-danger">
+                                        <td><i class="bi bi-circle-fill text-danger"></i></td>
+                                        <td><strong>MAT-004</strong></td><td>Cartón RSC</td>
+                                        <td><span class="badge bg-info">CARTÓN</span></td>
+                                        <td><span class="badge bg-light text-dark border">Lámina</span></td>
+                                        <td>50 m²</td><td>40 m²</td><td>20 m²</td><td>10 m²</td>
+                                        <td><strong>120 m²</strong></td><td>$10,200</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-circle-fill text-success"></i></td>
+                                        <td><strong>MAT-009</strong></td><td>Madera Pino 4x6 TT</td>
+                                        <td><span class="badge bg-warning">MADERA</span></td>
+                                        <td><span class="badge bg-light text-dark border">Tratada</span></td>
+                                        <td>850 p</td><td>520 p</td><td>280 p</td><td>200 p</td>
+                                        <td><strong>1,850 pies</strong></td><td>$40,700</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-circle-fill text-success"></i></td>
+                                        <td><strong>MAT-013</strong></td><td>Polín 4x4 Pino</td>
+                                        <td><span class="badge bg-warning">MADERA</span></td>
+                                        <td><span class="badge bg-light text-dark border">Polín</span></td>
+                                        <td>180</td><td>120</td><td>60</td><td>60</td>
+                                        <td><strong>420 piezas</strong></td><td>$27,300</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-circle-fill text-success"></i></td>
+                                        <td><strong>MAT-010</strong></td><td>Cartón Troquelado</td>
+                                        <td><span class="badge bg-info">CARTÓN</span></td>
+                                        <td><span class="badge bg-light text-dark border">Lámina</span></td>
+                                        <td>400 m²</td><td>320 m²</td><td>150 m²</td><td>80 m²</td>
+                                        <td><strong>950 m²</strong></td><td>$90,250</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-circle-fill text-success"></i></td>
+                                        <td><strong>MAT-030</strong></td><td>Adhesivo Almidón</td>
+                                        <td><span class="badge bg-info">CARTÓN</span></td>
+                                        <td><span class="badge bg-light text-dark border">Pegamento</span></td>
+                                        <td>150 kg</td><td>120 kg</td><td>60 kg</td><td>50 kg</td>
+                                        <td><strong>380 kg</strong></td><td>$13,300</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-circle-fill text-success"></i></td>
+                                        <td><strong>MAT-033</strong></td><td>Pintura Negra Base Agua</td>
+                                        <td><span class="badge bg-info">CARTÓN</span></td>
+                                        <td><span class="badge bg-light text-dark border">Pintura</span></td>
+                                        <td>80 L</td><td>60 L</td><td>25 L</td><td>20 L</td>
+                                        <td><strong>185 litros</strong></td><td>$15,725</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="table-secondary">
+                                    <tr><td colspan="10" class="text-end"><strong>TOTAL MATERIALES:</strong></td><td><strong>$1,120,000</strong></td></tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                </div>
-
-                <!-- Tabla de Materiales -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0"><i class="bi bi-box"></i> Inventario de Materiales</h5>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-hover mb-0">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Alerta</th>
-                                                <th>Material</th>
-                                                <th>Tipo</th>
-                                                <th>Base TULA</th>
-                                                <th>Base WEG</th>
-                                                <th>Base SM</th>
-                                                <th>Otras Bases</th>
-                                                <th>TOTAL</th>
-                                                <th>Valor</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="table-danger">
-                                                <td><i class="bi bi-circle-fill text-danger"></i></td>
-                                                <td><strong>Clavos 3"</strong><br><small class="text-muted">MAT-001</small></td>
-                                                <td><span class="badge bg-secondary">INSUMOS</span></td>
-                                                <td>15 kg</td>
-                                                <td>12 kg</td>
-                                                <td>8 kg</td>
-                                                <td>10 kg</td>
-                                                <td><strong>45 kg</strong></td>
-                                                <td>$1,575</td>
-                                            </tr>
-                                            <tr class="table-danger">
-                                                <td><i class="bi bi-circle-fill text-danger"></i></td>
-                                                <td><strong>Madera Pino 2x4</strong><br><small class="text-muted">MAT-002</small></td>
-                                                <td><span class="badge bg-warning">MADERA</span></td>
-                                                <td>120 pies</td>
-                                                <td>85 pies</td>
-                                                <td>65 pies</td>
-                                                <td>50 pies</td>
-                                                <td><strong>320 pies</strong></td>
-                                                <td>$4,384</td>
-                                            </tr>
-                                            <tr class="table-warning">
-                                                <td><i class="bi bi-circle-fill text-warning"></i></td>
-                                                <td><strong>Madera Encino 3x6</strong><br><small class="text-muted">MAT-006</small></td>
-                                                <td><span class="badge bg-warning">MADERA</span></td>
-                                                <td>280 pies</td>
-                                                <td>180 pies</td>
-                                                <td>90 pies</td>
-                                                <td>70 pies</td>
-                                                <td><strong>620 pies</strong></td>
-                                                <td>$11,470</td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="bi bi-circle-fill text-success"></i></td>
-                                                <td><strong>Madera Pino 4x6 TT</strong><br><small class="text-muted">MAT-009</small></td>
-                                                <td><span class="badge bg-warning">MADERA</span></td>
-                                                <td>850 pies</td>
-                                                <td>520 pies</td>
-                                                <td>280 pies</td>
-                                                <td>200 pies</td>
-                                                <td><strong>1,850 pies</strong></td>
-                                                <td>$40,700</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="table-secondary">
-                                            <tr>
-                                                <td colspan="8" class="text-end"><strong>TOTAL MATERIALES:</strong></td>
-                                                <td><strong>$1,120,000</strong></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-white">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">Mostrando 4 de 45 resultados</small>
-                                    <nav>
-                                        <ul class="pagination pagination-sm mb-0">
-                                            <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Mostrando 9 de 61 resultados</small>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -488,19 +389,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script>
-        function filtrarInventario() {
-            mostrarNotificacion('Aplicando filtros...', 'info');
+        // Renderizar árbol al cargar
+        document.addEventListener('DOMContentLoaded', function () {
+            renderValorTree('valorTreeContainer');
+        });
+
+        function expandirTodo() {
+            document.querySelectorAll('.tree-level-1, .tree-level-2').forEach(el => el.classList.add('open'));
+            document.querySelectorAll('.tree-children-1, .tree-children-2').forEach(el => el.classList.add('open'));
+        }
+
+        function colapsarTodo() {
+            document.querySelectorAll('.tree-level-1, .tree-level-2').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('.tree-children-1, .tree-children-2').forEach(el => el.classList.remove('open'));
         }
 
         function verCriticos() {
-            alert('MATERIALES CRÍTICOS\n\n' +
-                  '1. Clavos 3" - 45 kg (Mínimo: 100)\n' +
-                  '2. Madera Pino 2x4 - 320 pies (Mínimo: 500)\n' +
-                  '3. Arandelas M8 - 15 kg (Mínimo: 50)\n' +
-                  '4. Cartón RSC - 120 m² (Mínimo: 300)\n' +
-                  '5. Tuercas M10 - 8 kg (Mínimo: 30)\n\n' +
-                  'Acción recomendada: Generar órdenes de compra\n\n' +
-                  'Nota: Las alertas se calculan por base individual.');
+            alert(
+                'MATERIALES CRÍTICOS (Stock ≤ Mínimo)\n\n' +
+                '1. Clavos 3"        — 45 kg   (Mínimo: 100 kg)\n' +
+                '2. Madera Pino 2x4  — 320 pies (Mínimo: 500 pies)\n' +
+                '3. Arandelas M8     — 15 kg   (Mínimo: 50 kg)\n' +
+                '4. Cartón RSC       — 120 m²  (Mínimo: 300 m²)\n' +
+                '5. Tuercas M10      — 8 kg    (Mínimo: 30 kg)\n\n' +
+                'Acción: Generar órdenes de compra urgentes.'
+            );
         }
     </script>
 </body>
