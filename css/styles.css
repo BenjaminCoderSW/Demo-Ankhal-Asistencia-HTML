@@ -265,3 +265,41 @@ footer {
     border-radius: 10px; background: #e9ecef; color: #495057;
     margin-left: 6px;
 }
+
+/* =====================================================
+   ESTILOS MÓDULO DE PAQUETES
+   ===================================================== */
+
+/* Badge pequeño para tabla de afectación */
+.badge-sm {
+    font-size: .68rem;
+    padding: 2px 5px;
+}
+
+/* Card de precio total calculado en el form */
+#precioTotalCalculado {
+    font-size: 1.1rem;
+    transition: color .2s;
+}
+
+/* Filas de componentes en el formulario */
+.componente-paquete-row .card {
+    border-color: #dee2e6;
+    transition: border-color .2s;
+}
+
+.componente-paquete-row .card:hover {
+    border-color: #0d6efd;
+}
+
+/* Icono de paquetes en el nav */
+.nav-link .bi-collection,
+.dropdown-item .bi-collection {
+    color: #0dcaf0;
+}
+
+/* Tabla de afectación de stock */
+#tablaAfectacion tr td:nth-child(4) {
+    font-weight: 700;
+    color: #dc3545;
+}
